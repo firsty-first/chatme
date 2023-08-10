@@ -38,7 +38,7 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/btn_signup"
+                android:id="@+id/btn_signIN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -60,7 +60,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/signIn_google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
@@ -70,7 +70,7 @@
                     app:cornerRadius="10dp" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/signin_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

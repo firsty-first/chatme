@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -31,29 +32,41 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
         progressDialog=new ProgressDialog(MainActivity.this);
         progressDialog.setTitle("Creating acccount");
         progressDialog.setMessage("creatign your acount");
-        binding.btnSignup.setOnClickListener(new View.OnClickListener() {
+        binding.signInTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.show();
-                firebaseAuth.createUserWithEmailAndPassword(binding.editTextTextEmailAddress.getText().toString(),
-                        binding.editTextTextPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if(task.isSuccessful())
-                        {
-                            UserModel user=new UserModel(binding.edittextName.toString(),binding.editTextTextEmailAddress.toString(),binding.editTextTextPassword.toString());
-                        String id=task.getResult().getUser().getUid();
-                        database.getReference().child("user").child(id).setValue(user);
-                            Toast.makeText(MainActivity.this, "User created successful", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(MainActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                startActivity(new Intent(MainActivity.this,signInActivity.class));
+            }
+        });
+        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!(binding.editTextTextEmailAddress.getText().toString().length()<10 || binding.editTextTextPassword.getText().toString().length()<5)) {
+                    progressDialog.show();
+                    firebaseAuth.createUserWithEmailAndPassword(binding.editTextTextEmailAddress.getText().toString(),
+                            binding.editTextTextPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                UserModel user = new UserModel(binding.edittextName.toString(), binding.editTextTextEmailAddress.toString(), binding.editTextTextPassword.toString());
+                                String id = task.getResult().getUser().getUid();
+                                database.getReference().child("user").child(id).setValue(user);
+                                Toast.makeText(MainActivity.this, "User created successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this, signInActivity.class));
 
+                            } else {
+                                Toast.makeText(MainActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Enter proper data", Toast.LENGTH_SHORT).show();
+                    binding.editTextTextEmailAddress.setHint("Enter proper email id");
+                    binding.editTextTextPassword.setHint("length should be minimum 4");
+                }
             }
         });
 

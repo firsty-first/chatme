@@ -1,14 +1,81 @@
 package com.example.chatme;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.View;
+import android.widget.Toast;
+
+import com.example.chatme.databinding.ActivitySignInBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class signInActivity extends AppCompatActivity {
+ActivitySignInBinding binding;
+    ProgressDialog progressDialog;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        binding=ActivitySignInBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        progressDialog=new ProgressDialog(signInActivity.this);
+        progressDialog.setTitle("Loging in");
+        progressDialog.setMessage("wait while we get you there");
+        auth=FirebaseAuth.getInstance();
+
+binding.signInTv.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(signInActivity.this,MainActivity.class));
+
+    }
+});
+        binding.btnSignIN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!(binding.editTextTextEmailAddress.getText().toString().length()<10 || binding.editTextTextPassword.getText().toString().length()<5))
+                {
+
+                    progressDialog.show();
+                    auth.signInWithEmailAndPassword(binding.editTextTextEmailAddress.getText().toString(), binding.editTextTextPassword.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressDialog.hide();
+                                    if (task.isSuccessful()) {
+                                        Intent intent = new Intent(signInActivity.this, HomeActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(signInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                }
+                else
+                {
+                    binding.editTextTextEmailAddress.setHint("please enter email id");
+                    binding.editTextTextPassword.setHint("Password is too short");
+                  // binding.editTextTextPassword.setHintTextColor(getResources().getColor(color.(R.color.errorHint)));//res.getColor(R.color.green)
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        //auth=FirebaseAuth.getInstance();
     }
 }
