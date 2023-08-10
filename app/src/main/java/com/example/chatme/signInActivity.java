@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +28,9 @@ ActivitySignInBinding binding;
         super.onCreate(savedInstanceState);
         binding=ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //this portion  is for checking only
+
+        //till here
         progressDialog=new ProgressDialog(signInActivity.this);
         progressDialog.setTitle("Loging in");
         progressDialog.setMessage("wait while we get you there");
@@ -35,7 +39,7 @@ ActivitySignInBinding binding;
 binding.signInTv.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(signInActivity.this,MainActivity.class));
+        startActivity(new Intent(signInActivity.this, signUpActivity.class));
 
     }
 });
@@ -58,8 +62,7 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
                                     } else {
                                         Toast.makeText(signInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                                     }
-
-                                }
+             }
                             });
                 }
                 else
@@ -71,7 +74,11 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
                 }
             }
         });
-    }
+        if(  auth.getCurrentUser()==null)
+            Log.d("user","NoUser");
+        if (auth.getCurrentUser()!=null)
+            startActivity(new Intent(signInActivity.this, HomeActivity.class));
+  }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {

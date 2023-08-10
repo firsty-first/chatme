@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MainActivity extends AppCompatActivity {
+public class signUpActivity extends AppCompatActivity {
     ActivityMainBinding binding;
   private   FirebaseAuth firebaseAuth;
   FirebaseDatabase database;
@@ -29,15 +29,16 @@ public class MainActivity extends AppCompatActivity {
 binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
        // getSupportActionBar().hide();
-        progressDialog=new ProgressDialog(MainActivity.this);
+        progressDialog=new ProgressDialog(signUpActivity.this);
         progressDialog.setTitle("Creating acccount");
         progressDialog.setMessage("creatign your acount");
         binding.signInTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,signInActivity.class));
+                startActivity(new Intent(signUpActivity.this,signInActivity.class));
             }
         });
+       // Toast.makeText(this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
         binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,23 +53,25 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
                                 UserModel user = new UserModel(binding.edittextName.toString(), binding.editTextTextEmailAddress.toString(), binding.editTextTextPassword.toString());
                                 String id = task.getResult().getUser().getUid();
                                 database.getReference().child("user").child(id).setValue(user);
-                                Toast.makeText(MainActivity.this, "User created successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, signInActivity.class));
+                                Toast.makeText(signUpActivity.this, "User created successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(signUpActivity.this, signInActivity.class));
 
                             } else {
-                                Toast.makeText(MainActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(signUpActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.this, "Enter proper data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(signUpActivity.this, "Enter proper data", Toast.LENGTH_SHORT).show();
                     binding.editTextTextEmailAddress.setHint("Enter proper email id");
                     binding.editTextTextPassword.setHint("length should be minimum 4");
                 }
             }
         });
+//        if (firebaseAuth.getCurrentUser()!=null)
+//            startActivity(new Intent(MainActivity.this, HomeActivity.class));
 
     }
 
