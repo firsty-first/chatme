@@ -2,6 +2,8 @@ package com.example.chatme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,19 @@ FirebaseAuth auth;
         setContentView(binding.getRoot());
         auth=FirebaseAuth.getInstance();
       //  getSupportActionBar().show();
+        binding.viewpager.setAdapter(new FragmentStateAdapter() {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                return null;
+            }
+
+            @Override
+            public int getItemCount() {
+                return 0;
+            }
+        });
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
     }
 
     @Override
