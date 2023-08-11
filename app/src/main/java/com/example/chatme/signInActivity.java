@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.chatme.databinding.ActivitySignInBinding;
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,6 +29,7 @@ ActivitySignInBinding binding;
         super.onCreate(savedInstanceState);
         binding=ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         //this portion  is for checking only
 
         //till here
@@ -35,6 +37,15 @@ ActivitySignInBinding binding;
         progressDialog.setTitle("Loging in");
         progressDialog.setMessage("wait while we get you there");
         auth=FirebaseAuth.getInstance();
+        BeginSignInRequest signInRequest = BeginSignInRequest.builder()
+                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        // Your server's client ID, not your Android client ID.
+                        .setServerClientId(getString(R.string.default_web_client_id))
+                        // Only show accounts previously used to sign in.
+                        .setFilterByAuthorizedAccounts(true)
+                        .build())
+                .build();
 
 binding.signInTv.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -59,6 +70,7 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
                                     if (task.isSuccessful()) {
                                         Intent intent = new Intent(signInActivity.this, HomeActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     } else {
                                         Toast.makeText(signInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                                     }
@@ -78,6 +90,7 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
             Log.d("user","NoUser");
         if (auth.getCurrentUser()!=null)
             startActivity(new Intent(signInActivity.this, HomeActivity.class));
+        finish();
   }
 
     @Override
