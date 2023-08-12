@@ -11,31 +11,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.chatme.Adapter.fragmentAdapter;
 import com.example.chatme.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeActivity extends AppCompatActivity {
 ActivityHomeBinding binding;
 FirebaseAuth auth;
+FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityHomeBinding.inflate(getLayoutInflater());
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        auth=FirebaseAuth.getInstance();
-      //  getSupportActionBar().show();
-        binding.viewpager.setAdapter(new FragmentStateAdapter() {
-            @NonNull
-            @Override
-            public Fragment createFragment(int position) {
-                return null;
-            }
-
-            @Override
-            public int getItemCount() {
-                return 0;
-            }
-        });
+        auth = FirebaseAuth.getInstance();
+        //  getSupportActionBar().show();
+        binding.viewpager.setAdapter(new fragmentAdapter(getSupportFragmentManager()));
         binding.tabLayout.setupWithViewPager(binding.viewpager);
     }
 

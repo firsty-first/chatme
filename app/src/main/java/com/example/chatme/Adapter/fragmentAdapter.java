@@ -16,9 +16,9 @@ public class fragmentAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    public fragmentAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
-    }
+    //public fragmentAdapter(@NonNull FragmentManager fm, int behavior) {
+      //  super(fm, behavior);
+   // }
 
     @NonNull
     @Override
@@ -43,7 +43,7 @@ public class fragmentAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        String title="";
+        String title=null;
         if(position==0)
             title="chats";
         else if(position==1)
@@ -51,6 +51,6 @@ public class fragmentAdapter extends FragmentPagerAdapter {
         else if (position==2) {
             title = "calls";
         }
-        return super.getPageTitle(position);
+        return title;
     }
 }
