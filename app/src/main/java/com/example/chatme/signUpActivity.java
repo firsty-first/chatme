@@ -50,7 +50,7 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             progressDialog.dismiss();
                             if (task.isSuccessful()) {
-                                UserModel user = new UserModel(binding.edittextName.toString(), binding.editTextTextEmailAddress.toString(), binding.editTextTextPassword.toString());
+                                UserModel user = new UserModel(binding.edittextName.getText().toString(), binding.editTextTextEmailAddress.getText().toString(), binding.editTextTextPassword.getText().toString());
                                 String id = task.getResult().getUser().getUid();
                                 database.getReference().child("user").child(id).setValue(user);
                                 Toast.makeText(signUpActivity.this, "User created successful", Toast.LENGTH_SHORT).show();

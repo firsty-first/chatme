@@ -1,6 +1,9 @@
 package com.example.chatme;
 
 public class UserModel {
+
+    public  UserModel()
+    {}
     public UserModel(String profile_pic, String userName, String mail, String password, String userId, String lastMessage) {
         this.profile_pic = profile_pic;
         this.userName = userName;
@@ -48,7 +51,7 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getUserId() {
+    public String getUserId(String key) {
         return userId;
     }
 

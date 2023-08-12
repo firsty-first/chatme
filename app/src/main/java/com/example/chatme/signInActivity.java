@@ -88,9 +88,10 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
         });
         if(  auth.getCurrentUser()==null)
             Log.d("user","NoUser");
-        if (auth.getCurrentUser()!=null)
+        if (auth.getCurrentUser()!=null) {
             startActivity(new Intent(signInActivity.this, HomeActivity.class));
-        finish();
+            finish();
+        }
   }
 
     @Override
