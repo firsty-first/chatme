@@ -1,6 +1,7 @@
 package com.example.chatme.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatme.R;
 import com.example.chatme.UserModel;
+import com.example.chatme.chatscreen;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,6 +43,20 @@ Context context;
 UserModel userModel=list.get((position));
         Picasso.get().load(userModel.getProfile_pic()).placeholder(R.drawable.chat).into(holder.imageView);
         holder.userName.setText(userModel.getUserName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, chatscreen.class);
+
+                intent.putExtra("userId",userModel.getUserId());
+                intent.putExtra("userName",userModel.getUserName());
+                intent.putExtra("profilePic",userModel.getProfile_pic());
+//                intent.putExtra("userId",userModel.getLastMessage());
+                context.startActivity(intent);
+
+
+            }
+        });
 
     }
 

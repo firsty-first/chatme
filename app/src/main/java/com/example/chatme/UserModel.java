@@ -59,6 +59,10 @@ public class UserModel {
         this.userId = userId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public String getLastMessage() {
         return lastMessage;
     }
