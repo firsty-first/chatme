@@ -3,6 +3,7 @@ package com.example.chatme;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.chatme.databinding.ChatscreenUiActivityBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,12 @@ public class chatscreen extends AppCompatActivity {
         String recieverName=getIntent().getStringExtra("userName");
 binding.name.setText(recieverName);
         Picasso.get().load(recieverImg).placeholder(R.drawable.parrot).into(binding.userImage);
+        binding.backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 }

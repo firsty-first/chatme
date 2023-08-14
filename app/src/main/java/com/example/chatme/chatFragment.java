@@ -72,7 +72,7 @@ public class chatFragment extends Fragment {
                 {
                     UserModel userModel=dataSnapshot.getValue(UserModel.class);
 
-              userModel.getUserId(dataSnapshot.getKey());
+              userModel.setUserId(dataSnapshot.getKey());
                     arrayList.add(userModel);
 
                 }
