@@ -20,6 +20,8 @@ public class chatscreen extends AppCompatActivity {
     ChatscreenUiActivityBinding binding;
     FirebaseDatabase database;
     FirebaseAuth auth;
+    String senderRoom,reciverRoom;
+    String senderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,7 @@ public class chatscreen extends AppCompatActivity {
         setContentView(binding.getRoot());
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
-        final String senderId=auth.getUid();
+       senderId=auth.getUid();
         String recieverId=getIntent().getStringExtra("userId");
         String recieverImg=getIntent().getStringExtra("profilePic");
         String recieverName=getIntent().getStringExtra("userName");
@@ -46,40 +48,49 @@ final ChatAdapter chatAdapter=new ChatAdapter(messagesModels,this);
 binding.chatRv.setAdapter(chatAdapter);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         binding.chatRv.setLayoutManager(layoutManager);
-final String senderRoom=senderId+recieverId;
-final String reciverRoom=recieverId+senderRoom;
-binding.sendBtn.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-String msg=binding.editTextText.getText().toString();
-if(msg.length()>0)
-{
-final messagesModel model=new messagesModel(senderId,msg);
+ senderRoom=senderId+recieverId;
+reciverRoom=recieverId+senderId;
 
-model.setTimestamp(new Date().getTime());
-binding.editTextText.setText("");
-database.getReference().child("chats")
-        .child(senderRoom)
-        .push()
-        .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+        binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Void unused) {
-                database.getReference().child("chats")
-                        .child(reciverRoom)
-                        .push()
-                        .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-
-                            }
-                        });
-
+            public void onClick(View view) {
+                storeMsgIndatabase();
             }
-        });
-    }}
-});
-
+            });
 
 
     }
+
+
+    void storeMsgIndatabase()
+    {
+
+                String msg=binding.editTextText.getText().toString();
+                if(msg.length()>0)
+                {
+                    final messagesModel model=new messagesModel(senderId,msg);
+
+                    model.setTimestamp(new Date().getTime());
+                    binding.editTextText.setText("");
+                    database.getReference().child("chats")
+                            .child(senderRoom)
+                            .push()
+                            .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    database.getReference().child("chats")
+                                            .child(reciverRoom)
+                                            .push()
+                                            .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+
+                                                }
+                                            });
+
+                                }
+                            });
+                }}
+
+
 }
