@@ -23,7 +23,7 @@ public class chatscreen extends AppCompatActivity {
         setContentView(binding.getRoot());
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
-        String senderId=auth.getUid();
+        final String senderId=auth.getUid();
         String recieverId=getIntent().getStringExtra("userId");
         String recieverImg=getIntent().getStringExtra("profilePic");
         String recieverName=getIntent().getStringExtra("userName");
