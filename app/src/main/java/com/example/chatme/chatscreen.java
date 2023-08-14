@@ -1,14 +1,18 @@
 package com.example.chatme;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.chatme.Adapter.ChatAdapter;
 import com.example.chatme.databinding.ChatscreenUiActivityBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class chatscreen extends AppCompatActivity {
     ChatscreenUiActivityBinding binding;
@@ -35,6 +39,11 @@ binding.name.setText(recieverName);
                 onBackPressed();
             }
         });
+final ArrayList<messagesModel> messagesModels=new ArrayList<>();
+final ChatAdapter chatAdapter=new ChatAdapter(messagesModels,this);
+binding.chatRv.setAdapter(chatAdapter);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        binding.chatRv.setLayoutManager(layoutManager);
 
     }
 }
