@@ -1,16 +1,21 @@
 package com.example.chatme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.chatme.Adapter.ChatAdapter;
 import com.example.chatme.databinding.ChatscreenUiActivityBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,6 +27,16 @@ public class chatscreen extends AppCompatActivity {
     FirebaseAuth auth;
     String senderRoom,reciverRoom;
     String senderId;
+    ArrayList<messagesModel> messagesModels;
+    @Override
+    protected void onStart() {
+        super.onStart();
+   messagesModels=new ArrayList<>();
+        ChatAdapter chatAdapter=new ChatAdapter(messagesModels,getApplicationContext());
+        binding.chatRv.setAdapter(chatAdapter);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+        binding.chatRv.setLayoutManager(layoutManager);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +46,7 @@ public class chatscreen extends AppCompatActivity {
         setContentView(binding.getRoot());
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
-       senderId=auth.getUid();
+      senderId=auth.getUid();
         String recieverId=getIntent().getStringExtra("userId");
         String recieverImg=getIntent().getStringExtra("profilePic");
         String recieverName=getIntent().getStringExtra("userName");
@@ -43,14 +58,14 @@ binding.name.setText(recieverName);
                 onBackPressed();
             }
         });
-final ArrayList<messagesModel> messagesModels=new ArrayList<>();
-final ChatAdapter chatAdapter=new ChatAdapter(messagesModels,this);
-binding.chatRv.setAdapter(chatAdapter);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-        binding.chatRv.setLayoutManager(layoutManager);
+//final ArrayList<messagesModel> messagesModels=new ArrayList<>();
+// ChatAdapter chatAdapter=new ChatAdapter(messagesModels,getApplicationContext());
+//binding.chatRv.setAdapter(chatAdapter);
+//        LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+//        binding.chatRv.setLayoutManager(layoutManager);
  senderRoom=senderId+recieverId;
 reciverRoom=recieverId+senderId;
-
+//
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +73,26 @@ reciverRoom=recieverId+senderId;
             }
             });
 
+database.getReference().child("chats")
+        .child(senderRoom)
+        .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1:snapshot.getChildren())
+                    {
+                        messagesModel model=snapshot1.getValue(messagesModel.class);
+                        messagesModels.add(model);
+                        Log.d("hii","got into if");
+                        Log.d("hii",model.getMessages());
 
+                    }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

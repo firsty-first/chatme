@@ -3,10 +3,12 @@ package com.example.chatme.Adapter;
 //one for reciever
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,21 +20,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 public class ChatAdapter extends RecyclerView.Adapter{
-    ArrayList<messagesModel> list;
+    ArrayList<messagesModel> messageModels;
     Context context;
     int SENDER_VIEW_TYPE=1;
     int RECIEVER_VIEW_TYPE=2;
 
     public ChatAdapter(ArrayList<messagesModel> list, Context context) {
-        this.list = list;
+        this.messageModels = list;
         this.context = context;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       if(viewType==SENDER_VIEW_TYPE)
+
+        if(viewType==SENDER_VIEW_TYPE)
        {
+
            View view= LayoutInflater.from(context).inflate(R.layout.sample_sender,parent,false);
            return  new senderViewHolder(view);
        }
@@ -47,33 +51,43 @@ public class ChatAdapter extends RecyclerView.Adapter{
 //this function is overridden to decide which msgd too get into which chat bubble
     @Override
     public int getItemViewType(int position) {
-        if(list.get(position).getuId().equals(FirebaseAuth.getInstance().getUid()))
+        if(messageModels.get(position).getuId().equals(FirebaseAuth.getInstance().getUid()))
         {
+            Log.d("type",Integer.toString(SENDER_VIEW_TYPE));
             return SENDER_VIEW_TYPE;
         }
-        else
-        return RECIEVER_VIEW_TYPE;
+        else {
+            Log.d("type",Integer.toString(RECIEVER_VIEW_TYPE));
+
+            return RECIEVER_VIEW_TYPE;
+
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-messagesModel model=list.get(position);
+messagesModel model= messageModels.get(position);
+        Toast.makeText(context, "this toast is imp", Toast.LENGTH_SHORT).show();
+        Log.d("imp","setTextSender");
 if(holder.getClass()==senderViewHolder.class)
 {
+    Log.d("imp","setTextSender");
     ((senderViewHolder)holder).sendermsg.setText(model.getMessages());
-    ((senderViewHolder)holder).senderTime.setText(model.getTimestamp().toString());
+  //  ((senderViewHolder)holder).senderTime.setText(model.getTimestamp().toString());
 
 }
 else
 {
+
+    Log.d("imp","setTextReciever");
     ((recieverViewHolder)holder).recievermsg.setText(model.getMessages());
-    ((recieverViewHolder)holder).recieverTime.setText(model.getTimestamp().toString());
+   // ((recieverViewHolder)holder).recieverTime.setText(model.getTimestamp().toString());
 }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return messageModels.size();
     }
 
     public class recieverViewHolder extends RecyclerView.ViewHolder{
@@ -90,8 +104,8 @@ else
 
         public senderViewHolder(@NonNull View itemView) {
             super(itemView);
-            sendermsg=itemView.findViewById(R.id.messageReciever);
-            senderTime=itemView.findViewById(R.id.timestampRecieved);
+            sendermsg=itemView.findViewById(R.id.messagesender);
+            senderTime=itemView.findViewById(R.id.timestampSend);
         }
     }
 }
