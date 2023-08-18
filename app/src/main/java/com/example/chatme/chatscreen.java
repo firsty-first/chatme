@@ -65,6 +65,9 @@ binding.name.setText(recieverName);
 //binding.chatRv.setAdapter(chatAdapter);
 //        LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
 //        binding.chatRv.setLayoutManager(layoutManager);
+
+
+
  senderRoom=senderId+recieverId;
 reciverRoom=recieverId+senderId;
 //
@@ -87,13 +90,12 @@ database.getReference().child("chats")
                         messagesModels.add(model);
                         Log.d("hii","got into if");
                         Log.d("hii",model.getMessages());
-
                     }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+Log.d("db","Dberror");
             }
         });
     }
