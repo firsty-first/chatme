@@ -35,7 +35,9 @@ public class chatscreen extends AppCompatActivity {
         ChatAdapter chatAdapter=new ChatAdapter(messagesModels,getApplicationContext());
         binding.chatRv.setAdapter(chatAdapter);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+        layoutManager.setReverseLayout(true);
         binding.chatRv.setLayoutManager(layoutManager);
+
     }
 
     @Override
