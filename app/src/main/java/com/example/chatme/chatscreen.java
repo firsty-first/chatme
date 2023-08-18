@@ -80,6 +80,7 @@ database.getReference().child("chats")
         .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messagesModels.clear();
                 for(DataSnapshot snapshot1:snapshot.getChildren())
                     {
                         messagesModel model=snapshot1.getValue(messagesModel.class);
