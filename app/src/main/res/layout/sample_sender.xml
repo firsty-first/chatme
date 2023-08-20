@@ -4,7 +4,12 @@
     android:layout_width="wrap_content"
     android:layout_margin="5dp"
     android:layout_marginTop="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:maxWidth="300dp"
+    android:maxHeight="400dp"
+    android:minWidth="40dp"
+    android:minHeight="10dp"
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,10 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/incoming_chat_bubble"
+        android:background="@drawable/outgoing_chat_bubble"
         android:maxWidth="300dp"
         android:maxHeight="400dp"
         android:minWidth="40dp"
