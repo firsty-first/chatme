@@ -76,6 +76,7 @@ public class chatFragment extends Fragment {
                     arrayList.add(userModel);
 
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
