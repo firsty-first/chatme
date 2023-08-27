@@ -28,11 +28,12 @@ public class chatscreen extends AppCompatActivity {
     String senderRoom,reciverRoom;
     String senderId;
     ArrayList<messagesModel> messagesModels;
+    ChatAdapter chatAdapter;
     @Override
     protected void onStart() {
         super.onStart();
    messagesModels=new ArrayList<>();
-        ChatAdapter chatAdapter=new ChatAdapter(messagesModels,getApplicationContext());
+      chatAdapter=new ChatAdapter(messagesModels,getApplicationContext());
         binding.chatRv.setAdapter(chatAdapter);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         layoutManager.setSmoothScrollbarEnabled(true);
@@ -91,6 +92,8 @@ database.getReference().child("chats")
                         Log.d("hii","got into if");
                         Log.d("hii",model.getMessages());
                     }
+                chatAdapter.notifyDataSetChanged();
+
             }
 
             @Override

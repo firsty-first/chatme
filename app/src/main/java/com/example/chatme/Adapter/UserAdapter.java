@@ -51,7 +51,7 @@ UserModel userModel=list.get((position));
                 intent.putExtra("userId",userModel.getUserId());
                 intent.putExtra("userName",userModel.getUserName());
                 intent.putExtra("profilePic",userModel.getProfile_pic());
-//                intent.putExtra("userId",userModel.getLastMessage());
+//              intent.putExtra("userId",userModel.getLastMessage());
                 context.startActivity(intent);
 
 
