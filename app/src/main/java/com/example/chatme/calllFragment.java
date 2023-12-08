@@ -1,5 +1,7 @@
 package com.example.chatme;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +28,7 @@ public class calllFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    WebView webView;
 
     public calllFragment() {
         // Required empty public constructor
@@ -53,12 +59,60 @@ public class calllFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calll, container, false);
+        View view=inflater.inflate(R.layout.fragment_calll, container, false);
+                webView = view.findViewById(R.id.webview);
+        // Enable JavaScript (optional, depending on your requirements)
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        // Handle links inside WebView
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
+                    view.loadUrl(url);
+                    return true;
+                } else {
+                    // Open external links in external browser
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+                }
+            }
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // Handle form submissions and include CSRF token
+                String csrfToken = extractCsrfTokenFromWebView(view);
+                // You can then use the CSRF token in your further requests
+            }
+
+        });
+
+
+        // Load the initial URL
+        webView.loadUrl("https://webchat-z1to.onrender.com");
+        return view;
     }
+    private String extractCsrfTokenFromWebView(WebView view) {
+        // Implement logic to extract the CSRF token from the WebView
+        // For example, you can use JavaScript to get the token from the page's DOM
+        // Note: This is just a placeholder; you need to adapt it based on your actual page structure
+
+        String javascript = "javascript:(function() { " +
+                "var csrfToken = document.getElementsByName('csrf_token')[0].value; " +
+                "window.Android.onCsrfTokenExtracted(csrfToken); })()";
+
+        view.evaluateJavascript(javascript, null);
+
+        return null; // Placeholder, replace it with actual CSRF token value
+    }
+
+
 }
