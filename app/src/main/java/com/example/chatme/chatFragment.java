@@ -1,5 +1,6 @@
 package com.example.chatme;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,8 +24,6 @@ import java.util.ArrayList;
 public class chatFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-
     private String mParam1;
     private String mParam2;
     FragmentChatBinding binding;
@@ -59,6 +58,7 @@ public class chatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
       binding= FragmentChatBinding.inflate(inflater, container, false);
         UserAdapter adapter=new UserAdapter(arrayList,getContext());
         binding.chatRv.setAdapter(adapter);
@@ -86,7 +86,12 @@ public class chatFragment extends Fragment {
         });
 
 
-
+        binding.filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), filterActivity.class));
+            }
+        });
       return  binding.getRoot();
     }
 }

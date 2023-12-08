@@ -6,4 +6,5 @@
     <color name="errorHint">#AC1B1B</color>
     <color name="primary">#117C45</color>
     <color name="chat_editText">#8E91BF</color>
+    <color name="themeblue">#09324E</color>
 </resources>
