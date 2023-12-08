@@ -94,15 +94,31 @@
             android:pivotY="0%"
             android:toDegrees="0">
             <shape android:shape="rectangle">
-                <solid android:color="#CBEBFC" />
+                <solid android:color="#FDBB59" />
             </shape>
         </rotate>
     </item>
     <item android:right="10dp">
         <shape android:shape="rectangle">
-            <solid android:color="#CBEBFC" />
+            <solid android:color="#E18037" />
             <corners android:radius="4dp" />
         </shape>
+        <gradient
+            android:type="linear"
+            android:startX="38.25"
+            android:startY="52"
+            android:endX="114.75"
+            android:endY="52"
+            >
+            <item
+                android:color="#FF9023"
+                android:offset="0"
+                />
+            <item
+                android:color="#0F1202"
+                android:offset="1"
+                />
+        </gradient>
     </item>
 
 </layer-list>

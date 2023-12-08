@@ -7,4 +7,6 @@
     <color name="primary">#117C45</color>
     <color name="chat_editText">#8E91BF</color>
     <color name="themeblue">#09324E</color>
+    <color name="hometheme">#8591F6</color>
+    <color name="hometheme2">#6D77FA</color>
 </resources>

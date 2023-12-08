@@ -74,4 +74,5 @@ public class UserModel {
     String profile_pic,userName,mail,password,userId,lastMessage;
 
 
+
 }

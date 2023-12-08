@@ -105,7 +105,7 @@ else
         public senderViewHolder(@NonNull View itemView) {
             super(itemView);
             sendermsg=itemView.findViewById(R.id.messagesender);
-            senderTime=itemView.findViewById(R.id.timestampSend);
+           // senderTime=itemView.findViewById(R.id.timestampSend);
         }
     }
 }
