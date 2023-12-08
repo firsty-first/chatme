@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ public class chatFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     FragmentChatBinding binding;
+    UserAdapter adapter;
     ArrayList<UserModel> arrayList=new ArrayList<>();
     FirebaseDatabase database;
 
@@ -60,10 +63,7 @@ public class chatFragment extends Fragment {
         // Inflate the layout for this fragment
 
       binding= FragmentChatBinding.inflate(inflater, container, false);
-        UserAdapter adapter=new UserAdapter(arrayList,getContext());
-        binding.chatRv.setAdapter(adapter);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
-        binding.chatRv.setLayoutManager(layoutManager);
+
         database.getReference().child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,8 +74,13 @@ public class chatFragment extends Fragment {
 
               userModel.setUserId(dataSnapshot.getKey());
                     arrayList.add(userModel);
-
+                    adapter=new UserAdapter(arrayList,getContext());
+                    binding.chatRv.setAdapter(adapter);
+                    LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+                    binding.chatRv.setLayoutManager(layoutManager);
+Log.d("search debug",userModel.getUserName());
                 }
+                searc();
                 adapter.notifyDataSetChanged();
             }
 
@@ -92,6 +97,26 @@ public class chatFragment extends Fragment {
                 startActivity(new Intent(getContext(), filterActivity.class));
             }
         });
+
       return  binding.getRoot();
+    }
+    void searc()
+    {
+
+
+        binding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
     }
 }

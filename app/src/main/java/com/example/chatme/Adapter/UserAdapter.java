@@ -2,9 +2,12 @@ package com.example.chatme.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,14 +21,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder>
+public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder> implements Filterable
 {
-ArrayList<UserModel> list;
+ArrayList<UserModel> data;
+   ArrayList<UserModel> backup;
 Context context;
 
     public UserAdapter(ArrayList<UserModel> list, Context context) {
-        this.list = list;
+        this.data = list;
         this.context = context;
+
+        backup=new ArrayList<>(data);
     }
 
     @NonNull
@@ -40,7 +46,7 @@ Context context;
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-UserModel userModel=list.get((position));
+UserModel userModel= data.get((position));
         Picasso.get().load(userModel.getProfile_pic()).placeholder(R.drawable.chat).into(holder.imageView);
         holder.userName.setText(userModel.getUserName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +68,48 @@ UserModel userModel=list.get((position));
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return data.size();
     }
+
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter=new Filter() {
+        @Override
+        // background thread
+        protected FilterResults performFiltering(CharSequence keyword)
+        {
+            ArrayList<UserModel> filtereddata=new ArrayList<>();
+
+            if(keyword.toString().isEmpty())
+                filtereddata.addAll(backup);
+            else
+            {
+                for(UserModel obj : backup)
+                {
+                    Log.d("search",obj.getUserName());
+                    if(obj.getUserName().toString().toLowerCase().contains(keyword.toString().toLowerCase()))
+                        filtereddata.add(obj);
+                }
+            }
+
+            FilterResults results=new FilterResults();
+            results.values=filtereddata;
+            return results;
+        }
+
+        @Override  // main UI thread
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            data.clear();
+            data.addAll((ArrayList<UserModel>)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
 
     public class ViewHolder extends RecyclerView.ViewHolder
 {
