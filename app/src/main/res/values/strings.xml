@@ -2,4 +2,5 @@
     <string name="app_name">chatme</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">AIzaSyA1zAubyCSA6qthVXnALqF5VhbFx8C56UE</string>
 </resources>
