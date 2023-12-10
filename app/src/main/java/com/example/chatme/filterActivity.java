@@ -18,7 +18,6 @@ import com.example.chatme.databinding.ActivityFilter2Binding;
 public class filterActivity extends AppCompatActivity {
     ActivityFilter2Binding binding;
     Boolean a = false, b = false, c = false, d = false, e = false, f = false, g = false, h = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,7 @@ public class filterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(filterActivity.this, "Updated ", Toast.LENGTH_SHORT).show();
                 //here i would update the data in database which would automatically update the view
-
+                overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
                 onBackPressed();
             }
         });
@@ -220,11 +219,9 @@ public class filterActivity extends AppCompatActivity {
 
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.spinnermenu, menu);
         return true;
     }
-
 }

@@ -49,8 +49,9 @@ public class fragmentAdapter extends FragmentPagerAdapter {
         else if(position==1)
             title="status";
         else if (position==2) {
-            title = "calls";
+            title = "Secret Rooms";
         }
         return title;
+
     }
 }

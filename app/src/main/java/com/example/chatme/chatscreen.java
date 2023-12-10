@@ -58,7 +58,10 @@ binding.name.setText(recieverName);
         binding.backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
+
                 onBackPressed();
+
             }
         });
 //final ArrayList<messagesModel> messagesModels=new ArrayList<>();

@@ -47,7 +47,7 @@ ActivitySignInBinding binding;
                         .build())
                 .build();
 
-binding.signInTv.setOnClickListener(new View.OnClickListener() {
+binding.newUser.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         startActivity(new Intent(signInActivity.this, signUpActivity.class));
@@ -57,11 +57,11 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
         binding.btnSignIN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!(binding.editTextTextEmailAddress.getText().toString().length()<10 || binding.editTextTextPassword.getText().toString().length()<5))
+                if(!(binding.editTextEmail.getText().toString().length()<10 || binding.editTextPassword.getText().toString().length()<5))
                 {
 
                     progressDialog.show();
-                    auth.signInWithEmailAndPassword(binding.editTextTextEmailAddress.getText().toString(), binding.editTextTextPassword.getText().toString())
+                    auth.signInWithEmailAndPassword(binding.editTextEmail.getText().toString(), binding.editTextPassword.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                                 @Override
@@ -79,8 +79,8 @@ binding.signInTv.setOnClickListener(new View.OnClickListener() {
                 }
                 else
                 {
-                    binding.editTextTextEmailAddress.setHint("please enter email id");
-                    binding.editTextTextPassword.setHint("Password is too short");
+                    binding.editTextEmail.setHint("please enter email id");
+                    binding.editTextPassword.setHint("Password is too short");
                   // binding.editTextTextPassword.setHintTextColor(getResources().getColor(color.(R.color.errorHint)));//res.getColor(R.color.green)
 
                 }

@@ -12,12 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatme.R;
 import com.example.chatme.UserModel;
 import com.example.chatme.chatscreen;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -47,11 +49,12 @@ Context context;
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 UserModel userModel= data.get((position));
-        Picasso.get().load(userModel.getProfile_pic()).placeholder(R.drawable.chat).into(holder.imageView);
+        //Picasso.get().load(userModel.getProfile_pic()).placeholder(R.drawable.chat).into((Target) holder.imageView);
         holder.userName.setText(userModel.getUserName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent=new Intent(context, chatscreen.class);
 
                 intent.putExtra("userId",userModel.getUserId());
@@ -113,7 +116,7 @@ UserModel userModel= data.get((position));
 
     public class ViewHolder extends RecyclerView.ViewHolder
 {
-ImageView imageView;
+CardView imageView;
 TextView userName,lastMessage;
     public ViewHolder(@NonNull View itemView) {
         super(itemView);

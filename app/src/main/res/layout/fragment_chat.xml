@@ -10,7 +10,7 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#0E2E43"
+        android:background="@drawable/bluebg"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         >
@@ -46,13 +46,13 @@
             </LinearLayout>
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchview"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
 
                 android:layout_marginEnd="12dp"
-
+        app:searchIcon="@drawable/search"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/search"
+
                 android:padding="3dp"
 
 

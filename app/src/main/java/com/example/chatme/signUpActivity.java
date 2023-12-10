@@ -39,7 +39,7 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
             }
         });
        // Toast.makeText(this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
-        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
+        binding.oldUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!(binding.editTextTextEmailAddress.getText().toString().length()<10 || binding.editTextTextPassword.getText().toString().length()<5)) {

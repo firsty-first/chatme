@@ -1,10 +1,12 @@
 package com.example.chatme;
 
+import android.net.Uri;
+
 public class UserModel {
 
     public  UserModel()
     {}
-    public UserModel(String profile_pic, String userName, String mail, String password, String userId, String lastMessage) {
+    public UserModel(Uri profile_pic, String userName, String mail, String password, String userId, String lastMessage) {
         this.profile_pic = profile_pic;
         this.userName = userName;
         this.mail = mail;
@@ -19,11 +21,11 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getProfile_pic() {
+    public Uri getProfile_pic() {
         return profile_pic;
     }
 
-    public void setProfile_pic(String profile_pic) {
+    public void setProfile_pic(Uri profile_pic) {
         this.profile_pic = profile_pic;
     }
 
@@ -71,8 +73,9 @@ public class UserModel {
         this.lastMessage = lastMessage;
     }
 
-    String profile_pic,userName,mail,password,userId,lastMessage;
-
+    String userName,mail,password,userId,lastMessage;
+    Uri profile_pic;
+    String hobbey,location;
 
 
 }
