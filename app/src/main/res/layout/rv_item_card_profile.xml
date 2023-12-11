@@ -48,6 +48,7 @@
                     android:textSize="18dp" />
 
                 <TextView
+                    android:id="@+id/availability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="70dp"
@@ -59,13 +60,13 @@
                     android:textColor="#436377" />
 
                 <ProgressBar
-                    android:id="@+id/progressBar10"
+                    android:id="@+id/progressBarprofile"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="100dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="70dp"
                     android:progress="10"
-                    android:max="100"
+                    android:max="1200"
                     android:progressDrawable="@drawable/progressbar"
                     android:progressTint="#143d59"
                     android:minHeight="15dp"
@@ -74,6 +75,7 @@
                     android:textAlignment="gravity" />
 
                 <TextView
+                    android:id="@+id/hobbey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -87,6 +89,7 @@
                     android:textSize="16dp" />
 
                 <TextView
+                    android:id="@+id/about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"

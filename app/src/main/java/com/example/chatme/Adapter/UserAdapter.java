@@ -2,6 +2,7 @@ package com.example.chatme.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,9 +29,10 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder> i
 {
 ArrayList<UserModel> data;
    ArrayList<UserModel> backup;
+   double latitude,longitude;
 Context context;
 
-    public UserAdapter(ArrayList<UserModel> list, Context context) {
+    public UserAdapter(ArrayList<UserModel> list, Context context,double latitude,double longitude) {
         this.data = list;
         this.context = context;
 
@@ -39,10 +42,8 @@ Context context;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view= LayoutInflater.from(context).inflate(R.layout.rv_item_card_profile,parent,false);
         ViewHolder viewHolder=new ViewHolder(view);
-
         return viewHolder;
     }
 
@@ -51,6 +52,14 @@ Context context;
 UserModel userModel= data.get((position));
         //Picasso.get().load(userModel.getProfile_pic()).placeholder(R.drawable.chat).into((Target) holder.imageView);
         holder.userName.setText(userModel.getUserName());
+
+        holder.hobbey.setText(userModel.getHobbey());
+        holder.availability.setText(userModel.getAvailability());
+
+        holder.about.setText("Status: "+userModel.getAbout());
+
+  double distance=calculateHaversineDistance(latitude,longitude,userModel.getLatitude(),userModel.getLongitude());
+      holder.progressBar.setProgress((int)distance);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +77,29 @@ UserModel userModel= data.get((position));
         });
 
     }
+    private static double calculateHaversineDistance(double lat1, double lon1,double lat2,double lon2) {
+        final int R = 6371; // Radius of the Earth in kilometers
 
+        // Convert latitude and longitude from degrees to radians
+
+        double lat1Rad = Math.toRadians(lat1);
+        double lon1Rad = Math.toRadians(lon1);
+        double lat2Rad = Math.toRadians(lat2);
+        double lon2Rad = Math.toRadians(lon2);
+
+        // Calculate the differences
+        double dLat = lat2Rad - lat1Rad;
+        double dLon = lon2Rad - lon1Rad;
+
+        // Haversine formula
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+System.out.println("distance between it"+ R*c);
+        // Calculate distance
+        return R * c;
+    }
     @Override
     public int getItemCount() {
         return data.size();
@@ -117,12 +148,17 @@ UserModel userModel= data.get((position));
     public class ViewHolder extends RecyclerView.ViewHolder
 {
 CardView imageView;
-TextView userName,lastMessage;
+ProgressBar progressBar;
+TextView userName,lastMessage,hobbey,availability,about;
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView=itemView.findViewById(R.id.userImg);
         userName=itemView.findViewById(R.id.userName);
-        lastMessage=itemView.findViewById(R.id.lastmessage);
+        about=itemView.findViewById(R.id.about);
+        hobbey=itemView.findViewById(R.id.hobbey);
+        availability=itemView.findViewById(R.id.availability);
+        progressBar=itemView.findViewById(R.id.progressBarprofile);
+
     }
 }
 }

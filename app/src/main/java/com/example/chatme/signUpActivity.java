@@ -32,14 +32,15 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
         progressDialog=new ProgressDialog(signUpActivity.this);
         progressDialog.setTitle("Creating acccount");
         progressDialog.setMessage("creatign your acount");
-        binding.signInTv.setOnClickListener(new View.OnClickListener() {
+        binding.oldUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(signUpActivity.this,signInActivity.class));
+           finish();
             }
         });
        // Toast.makeText(this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
-        binding.oldUser.setOnClickListener(new View.OnClickListener() {
+        binding.signInTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!(binding.editTextTextEmailAddress.getText().toString().length()<10 || binding.editTextTextPassword.getText().toString().length()<5)) {

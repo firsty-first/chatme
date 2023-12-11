@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.example.chatme.Adapter.ChatAdapter;
 import com.example.chatme.databinding.ChatscreenUiActivityBinding;
@@ -47,6 +48,7 @@ public class chatscreen extends AppCompatActivity {
         binding=ChatscreenUiActivityBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
       senderId=auth.getUid();
