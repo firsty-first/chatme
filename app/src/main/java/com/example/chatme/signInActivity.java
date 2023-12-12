@@ -3,6 +3,7 @@ package com.example.chatme;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -28,6 +29,9 @@ ActivitySignInBinding binding;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivitySignInBinding.inflate(getLayoutInflater());
+        // Force light mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         setContentView(binding.getRoot());
 
         //this portion  is for checking only

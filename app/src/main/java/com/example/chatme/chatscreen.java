@@ -99,6 +99,7 @@ database.getReference().child("chats")
                     }
                 chatAdapter.notifyDataSetChanged();
 
+
             }
 
             @Override
