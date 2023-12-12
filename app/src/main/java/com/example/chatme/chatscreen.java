@@ -102,9 +102,17 @@ public class chatscreen extends AppCompatActivity {
                             Log.d("hii", model.getMessages());
                         }
                         chatAdapter.notifyDataSetChanged();
+
                         if (!AppVisibilityTracker.getInstance().isAppInForeground()) {
-                            showNotification();
-                        }
+                            Log.d("notification", "show notif");
+                            showNotification();}
+
+                            else
+                            Log.d("notification","not show notif");
+
+
+
+
                         if (messagesModels.size() > 0) {
                             int lastItemPosition = messagesModels.size() - 1;
                             binding.chatRv.scrollToPosition(lastItemPosition);
@@ -153,7 +161,7 @@ public class chatscreen extends AppCompatActivity {
     private void showNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(chatscreen.this, NotificationUtils.CHANNEL_ID)
                 .setSmallIcon(R.drawable.parrot)
-                .setContentTitle("New message Arraived")
+                .setContentTitle("New message Arrived")
                 .setContentText("Tap tp view it ")
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
