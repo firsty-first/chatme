@@ -103,4 +103,12 @@ binding.newUser.setOnClickListener(new View.OnClickListener() {
         super.onCreate(savedInstanceState, persistentState);
         //auth=FirebaseAuth.getInstance();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NotificationUtils.createNotificationChannel(this);
+        Log.d("life activity","start  homescreen");
+    }
+
 }

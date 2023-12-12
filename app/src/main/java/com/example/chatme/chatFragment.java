@@ -10,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -93,8 +95,23 @@ public class chatFragment extends Fragment {
                     binding.chatRv.setLayoutManager(layoutManager);
 Log.d("search debug",userModel.getUserName());
                 }
-                searc();
                 adapter.notifyDataSetChanged();
+                if (arrayList.size() > 0) {
+                    int lastItemPosition = arrayList.size() - 1;
+                    binding.chatRv.scrollToPosition(lastItemPosition);
+
+                    binding.chatRv.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+                        @Override
+                        public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                            // Handle touch events
+
+                            return false; // Return true if the touch event is consumed
+                        }
+                    });
+
+                }
+                searc();
+
             }
 
             @Override

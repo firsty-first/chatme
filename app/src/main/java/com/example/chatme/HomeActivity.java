@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
         auth=FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
-
+        AppVisibilityTracker.getInstance().setAppInForeground(true);//flag for notification
 
     }
 
@@ -202,4 +202,31 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppVisibilityTracker.getInstance().setAppInForeground(false);
+        Log.d("life activity","destroy homescreen");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("life activity","onpausehomescreen");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppVisibilityTracker.getInstance().setAppInForeground(true);
+        Log.d("life activity","resume homescreen");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("life activity","restart  homescreen");
+    }
+
 }

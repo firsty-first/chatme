@@ -67,7 +67,7 @@ public class ChatAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 messagesModel model= messageModels.get(position);
-        Toast.makeText(context, "this toast is imp", Toast.LENGTH_SHORT).show();
+
         Log.d("imp","setTextSender");
 if(holder.getClass()==senderViewHolder.class)
 {
