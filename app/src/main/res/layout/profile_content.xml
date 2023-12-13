@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/fragment_accountinfo"
-    tools:context=".Nav">
+    tools:showIn="@layout/ac"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"

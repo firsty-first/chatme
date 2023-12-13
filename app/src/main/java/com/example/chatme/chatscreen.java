@@ -7,6 +7,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +47,7 @@ public class chatscreen extends AppCompatActivity {
         layoutManager.setSmoothScrollbarEnabled(true);
         binding.chatRv.setLayoutManager(layoutManager);
         NotificationUtils.createNotificationChannel(this);
+        AppVisibilityTracker.getInstance().setAppInForeground(true);
 
     }
 
@@ -104,11 +107,12 @@ public class chatscreen extends AppCompatActivity {
                         chatAdapter.notifyDataSetChanged();
 
                         if (!AppVisibilityTracker.getInstance().isAppInForeground()) {
-                            Log.d("notification", "show notif");
-                            showNotification();}
+                            Log.d("life activity", "show notif");
+                            showNotification();
+                        }
 
                             else
-                            Log.d("notification","not show notif");
+                            Log.d("life activity","not show notif");
 
 
 
@@ -129,6 +133,44 @@ public class chatscreen extends AppCompatActivity {
     }
 
 
+
+
+    private void showNotification() {
+       /* UserModel userModel=new UserModel();
+        Intent chatIntent = new Intent(getApplicationContext(), chatscreen.class);
+        chatIntent.putExtra("userId", userModel.getUserId());
+        chatIntent.putExtra("userName", userModel.getUserName());
+        chatIntent.putExtra("profilePic", userModel.getProfile_pic());
+
+// Create a PendingIntent
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                getApplicationContext(),
+                1,
+                chatIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );*/
+        Log.d("life activity","notification ke andr");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(chatscreen.this, NotificationUtils.CHANNEL_ID)
+                .setSmallIcon(R.drawable.parrot)
+                .setContentTitle("New message Arrived")
+                .setContentText(auth.getCurrentUser().getDisplayName()+", Tap to view it ")
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            //ActivityCompat.requestPermissions(permi);
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+     Log.d("notif","no permission");
+            return;
+        }
+        notificationManager.notify(1, builder.build());
+    }
     void storeMsgIndatabase() {
 
         String msg = binding.editTextText.getText().toString();
@@ -158,26 +200,21 @@ public class chatscreen extends AppCompatActivity {
         }
     }
 
-    private void showNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(chatscreen.this, NotificationUtils.CHANNEL_ID)
-                .setSmallIcon(R.drawable.parrot)
-                .setContentTitle("New message Arrived")
-                .setContentText("Tap tp view it ")
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-     Log.d("notif","no permission");
-            return;
-        }
-        notificationManager.notify(1, builder.build());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppVisibilityTracker.getInstance().setAppInForeground(true);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        AppVisibilityTracker.getInstance().setAppInForeground(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppVisibilityTracker.getInstance().setAppInForeground(false);
+    }
 }

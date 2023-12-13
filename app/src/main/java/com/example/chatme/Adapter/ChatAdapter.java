@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatme.DateUtils;
 import com.example.chatme.R;
 import com.example.chatme.messagesModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,9 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter{
         }
         else {
             Log.d("type",Integer.toString(RECIEVER_VIEW_TYPE));
-
             return RECIEVER_VIEW_TYPE;
-
         }
     }
 
@@ -73,6 +72,7 @@ if(holder.getClass()==senderViewHolder.class)
 {
     Log.d("imp","setTextSender");
     ((senderViewHolder)holder).sendermsg.setText(model.getMessages());
+    ((senderViewHolder)holder).senderTime.setText(DateUtils.formatTime(model.getTimestamp()));
   //  ((senderViewHolder)holder).senderTime.setText(model.getTimestamp().toString());
 
 }
@@ -81,7 +81,7 @@ else
 
     Log.d("imp","setTextReciever");
     ((recieverViewHolder)holder).recievermsg.setText(model.getMessages());
-   // ((recieverViewHolder)holder).recieverTime.setText(model.getTimestamp().toString());
+   ((recieverViewHolder)holder).recieverTime.setText(DateUtils.formatTime(model.getTimestamp()));
 }
     }
 
@@ -100,12 +100,13 @@ else
         }
     }
     public class senderViewHolder extends RecyclerView.ViewHolder{
-        TextView sendermsg,senderTime;
+        TextView sendermsg,senderTime,recievetime;
 
         public senderViewHolder(@NonNull View itemView) {
             super(itemView);
             sendermsg=itemView.findViewById(R.id.messagesender);
-           // senderTime=itemView.findViewById(R.id.timestampSend);
+           senderTime=itemView.findViewById(R.id.timestampSender);
+           recievetime=itemView.findViewById(R.id.timestampRecieved);
         }
     }
 }

@@ -5,7 +5,7 @@
 
     <item>
         <rotate
-            android:fromDegrees="40"
+            android:fromDegrees="80"
             android:pivotX="100%"
             android:pivotY="0%"
             android:toDegrees="0">
@@ -115,7 +115,7 @@
                 android:offset="0"
                 />
             <item
-                android:color="#0F1202"
+                android:color="#A9C144"
                 android:offset="1"
                 />
         </gradient>
