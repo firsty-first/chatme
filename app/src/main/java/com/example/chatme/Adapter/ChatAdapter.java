@@ -80,6 +80,7 @@ else
 {
 
     Log.d("imp","setTextReciever");
+
     ((recieverViewHolder)holder).recievermsg.setText(model.getMessages());
    ((recieverViewHolder)holder).recieverTime.setText(DateUtils.formatTime(model.getTimestamp()));
 }
