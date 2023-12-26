@@ -2,14 +2,12 @@ package com.example.chatme.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatme.R;
 import com.example.chatme.UserModel;
 import com.example.chatme.chatscreen;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -68,7 +64,7 @@ UserModel userModel= data.get((position));
 
                 intent.putExtra("userId",userModel.getUserId());
                 intent.putExtra("userName",userModel.getUserName());
-                intent.putExtra("profilePic",userModel.getProfile_pic());
+                intent.putExtra("profilePic",userModel.getProfilepic());
 //              intent.putExtra("userId",userModel.getLastMessage());
                 context.startActivity(intent);
 

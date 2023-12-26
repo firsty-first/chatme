@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class chatFragment extends Fragment {
@@ -39,6 +41,10 @@ public class chatFragment extends Fragment {
     ArrayList<UserModel> arrayList=new ArrayList<>();
     FirebaseDatabase database;
     FirebaseAuth auth;
+    SharedPreferences userDetails;
+    private static final String PREF_NAME = "MyAppPreferences";
+    private static final String KEY_NAME = "user_name";
+    private static final String KEY_EMAIL = "user_email";
 
     public chatFragment() {
         // Required empty public constructor
@@ -75,7 +81,12 @@ public class chatFragment extends Fragment {
         SharedPreferences sharedPreferences =getContext(). getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         Log.d("locfromShared",sharedPreferences.getString("latitude","0").toString()+","+sharedPreferences.getString("longitude"," ").toString());
-
+        binding.optionbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), settingsActivity.class));
+            }
+        });
         database.getReference().child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -85,16 +96,27 @@ public class chatFragment extends Fragment {
                     UserModel userModel=dataSnapshot.getValue(UserModel.class);
 
               userModel.setUserId(dataSnapshot.getKey());
-             if( auth.getCurrentUser().getUid()==userModel.getUserId())
-                 userModel.setUserName(userModel.getUserName()+"(Me)");
-              binding.dashboardname.setText("Howdy ,"+userModel.getUserName().replace("(Me)",""));
+              Log.d("user",auth.getCurrentUser().getUid());
+              Log.d("user",auth.getCurrentUser().getEmail());
+             if( auth.getCurrentUser().getUid().equals(userModel.getUserId())) {
+                 Log.d("user","entered into if");
+                 userModel.setUserName(userModel.getUserName() + "(Me)");
+                 saveUserName(getContext(),userModel.getUserName().substring(0,userModel.getUserName().length()-4));
+                 saveUserEmail(getContext(),userModel.getMail());
+             }
+
+              binding.dashboardname.setText("Howdy ,"+getUserName(getContext()));
                     arrayList.add(userModel);
                     adapter=new UserAdapter(arrayList,getContext(),Double.parseDouble(sharedPreferences.getString("latitude","0")),Double.parseDouble(sharedPreferences.getString("longitude","0")));
                     binding.chatRv.setAdapter(adapter);
                     LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
                     binding.chatRv.setLayoutManager(layoutManager);
-Log.d("search debug",userModel.getUserName());
+                    Log.d("search debug",userModel.getUserName());
+                   //
                 }
+                //Collections.sort(arrayList, Comparator.comparingLong(UserModel::getLastmessageTime).reversed());
+                // Sort the ArrayList in descending order based on the time property using lambda expression
+binding.chatRv.smoothScrollToPosition(0);
                 adapter.notifyDataSetChanged();
                 if (arrayList.size() > 0) {
                     int lastItemPosition = arrayList.size() - 1;
@@ -163,5 +185,22 @@ Log.d("search debug",userModel.getUserName());
         // Push the user object to the database
         database.getReference().child("users").child(userId).setValue(user);
     }
-
+    // Save user's name
+    public static void saveUserName(Context context, String name) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_NAME, name);
+        editor.apply();
+    }
+    // Save user's email
+    public static void saveUserEmail(Context context, String email) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_EMAIL, email);
+        editor.apply();
+    }
+    public static String getUserName(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_NAME, "");
+    }
 }

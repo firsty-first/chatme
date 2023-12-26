@@ -195,6 +195,7 @@ public class HomeActivity extends AppCompatActivity {
         userUpdates.put("longitude",longitude);
 
 
+
         // Update the specific fields within the user node
         database.getReference().child("user").child(userId).updateChildren(userUpdates);
 

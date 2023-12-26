@@ -4,16 +4,34 @@ import android.net.Uri;
 
 public class UserModel {
 
+
+    String userName,mail,password,userId,lastMessage;
+    String profilepic;
+    String hobbey,location,availability,about;
+    String distance;
+    double latitude;
+    long lastmessageTime;
+    String lastmessageTo;
+
+    public String getLastmessageTo() {
+        return lastmessageTo;
+    }
+
+    public void setLastmessageTo(String lastmessageTo) {
+        this.lastmessageTo = lastmessageTo;
+    }
+
+    public long getLastmessageTime() {
+        return lastmessageTime;
+    }
+
+    public void setLastmessageTime(long lastmessageTime) {
+        this.lastmessageTime = lastmessageTime;
+    }
+
     public  UserModel()
     {}
-    public UserModel(Uri profile_pic, String userName, String mail, String password, String userId, String lastMessage) {
-        this.profile_pic = profile_pic;
-        this.userName = userName;
-        this.mail = mail;
-        this.password = password;
-        this.userId = userId;
-        this.lastMessage = lastMessage;
-    }
+
 //signup
     public UserModel(String userName, String mail, String password) {
         this.userName = userName;
@@ -21,29 +39,14 @@ public class UserModel {
         this.password = password;
     }
 
-    public UserModel(String userName, String mail, String password, String userId, String lastMessage, Uri profile_pic, String hobbey, String location, String availability, String about) {
-        this.userName = userName;
-        this.mail = mail;
-        this.password = password;
-        this.userId = userId;
-        this.lastMessage = lastMessage;
-        this.profile_pic = profile_pic;
-        this.hobbey = hobbey;
-        this.location = location;
-        this.availability = availability;
-        this.about = about;
+
+
+    public String getProfilepic() {
+        return profilepic;
     }
 
-    public UserModel(String userName, String mail, String password, String userId, String lastMessage, String hobbey, String location, String availability, String about) {
-
-    }
-
-    public Uri getProfile_pic() {
-        return profile_pic;
-    }
-
-    public void setProfile_pic(Uri profile_pic) {
-        this.profile_pic = profile_pic;
+    public void setProfilepic(String profilepic) {
+        this.profilepic = profilepic;
     }
 
     public String getUserName() {
@@ -90,11 +93,7 @@ public class UserModel {
         this.lastMessage = lastMessage;
     }
 
-    String userName,mail,password,userId,lastMessage;
-    Uri profile_pic;
-    String hobbey,location,availability,about;
-    String distance;
-    double latitude;
+
 
     public double getLatitude() {
         return latitude;
@@ -153,4 +152,5 @@ public class UserModel {
     public void setAbout(String about) {
         this.about = about;
     }
+
 }

@@ -31,7 +31,7 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
        // getSupportActionBar().hide();
         progressDialog=new ProgressDialog(signUpActivity.this);
         progressDialog.setTitle("Creating acccount");
-        progressDialog.setMessage("creatign your acount");
+        progressDialog.setMessage("creating your acount");
         binding.oldUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +53,7 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
                             if (task.isSuccessful()) {
                                 UserModel user = new UserModel(binding.edittextName.getText().toString(), binding.editTextTextEmailAddress.getText().toString(), binding.editTextTextPassword.getText().toString());
                                 String id = task.getResult().getUser().getUid();
+                                user.setProfilepic("null");
                                 database.getReference().child("user").child(id).setValue(user);
                                 Toast.makeText(signUpActivity.this, "User created successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(signUpActivity.this, signInActivity.class));

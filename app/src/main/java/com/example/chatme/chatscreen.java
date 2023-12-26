@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,6 +28,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class chatscreen extends AppCompatActivity {
     ChatscreenUiActivityBinding binding;
@@ -34,6 +37,7 @@ public class chatscreen extends AppCompatActivity {
     FirebaseAuth auth;
     String senderRoom, reciverRoom;
     String senderId;
+    String recieverId;//from user list that is ascreen to screen data transfer
     ArrayList<messagesModel> messagesModels;
     ChatAdapter chatAdapter;
 
@@ -55,13 +59,12 @@ public class chatscreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ChatscreenUiActivityBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         senderId = auth.getUid();
-        String recieverId = getIntent().getStringExtra("userId");
+         recieverId = getIntent().getStringExtra("userId");
         String recieverImg = getIntent().getStringExtra("profilePic");
         String recieverName = getIntent().getStringExtra("userName");
         binding.name.setText(recieverName);
@@ -75,6 +78,7 @@ public class chatscreen extends AppCompatActivity {
 
             }
         });
+
 //final ArrayList<messagesModel> messagesModels=new ArrayList<>();
 // ChatAdapter chatAdapter=new ChatAdapter(messagesModels,getApplicationContext());
 //binding.chatRv.setAdapter(chatAdapter);
@@ -104,6 +108,7 @@ public class chatscreen extends AppCompatActivity {
                             Log.d("hii", "got into if");
                             Log.d("hii", model.getMessages());
                         }
+
                         chatAdapter.notifyDataSetChanged();
 
                         if (!AppVisibilityTracker.getInstance().isAppInForeground()) {
@@ -169,8 +174,11 @@ public class chatscreen extends AppCompatActivity {
      Log.d("notif","no permission");
             return;
         }
+
         notificationManager.notify(1, builder.build());
     }
+
+
     void storeMsgIndatabase() {
 
         String msg = binding.editTextText.getText().toString();
@@ -191,6 +199,17 @@ public class chatscreen extends AppCompatActivity {
                                     .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
+                                     /*       Map<String, Object> chatcardpositionupdate = new HashMap<>();
+
+                                            chatcardpositionupdate.put("lastmessagetime",new Date().getTime());
+                                            chatcardpositionupdate.put("lastmessageTo",recieverId);
+                                            database.getReference().child("chats")
+                                                    .child(senderId).updateChildren(chatcardpositionupdate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d("msg","time and to whom it was sent updated");
+                                                        }
+                                                    });*/
 
                                         }
                                     });

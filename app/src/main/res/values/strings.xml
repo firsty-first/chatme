@@ -44,4 +44,7 @@
     <string name="error_password_match">Password Does Not Match</string>
     <string name="error_valid_email_password">Wrong Email or Password</string>
     <string name="success_message">Registration Successful</string>
+
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 </resources>

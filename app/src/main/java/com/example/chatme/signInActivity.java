@@ -86,7 +86,6 @@ binding.newUser.setOnClickListener(new View.OnClickListener() {
                     binding.editTextEmail.setHint("please enter email id");
                     binding.editTextPassword.setHint("Password is too short");
                   // binding.editTextTextPassword.setHintTextColor(getResources().getColor(color.(R.color.errorHint)));//res.getColor(R.color.green)
-
                 }
             }
         });
@@ -97,13 +96,11 @@ binding.newUser.setOnClickListener(new View.OnClickListener() {
             finish();
         }
   }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         //auth=FirebaseAuth.getInstance();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
