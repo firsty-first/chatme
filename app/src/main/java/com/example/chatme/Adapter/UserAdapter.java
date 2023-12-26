@@ -62,7 +62,7 @@ UserModel userModel= data.get((position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                holder.itemView.setBackgroundResource(R.drawable.btn_bg);
                 Intent intent=new Intent(context, chatscreen.class);
 
                 intent.putExtra("userId",userModel.getUserId());
