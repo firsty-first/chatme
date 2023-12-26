@@ -12,9 +12,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -31,9 +33,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class settingsActivity extends AppCompatActivity {
 FirebaseDatabase database;
@@ -46,13 +51,13 @@ FirebaseAuth auth;
     private ProgressDialog progressDialog;
 ActivitySettingsBinding binding;
 int SELECT_PICTURE=13102010;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onStart() {
         super.onStart();
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-
 
     }
 
@@ -61,6 +66,14 @@ int SELECT_PICTURE=13102010;
         super.onCreate(savedInstanceState);
         binding=ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.settingback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+
+        });
+        setTopBarColor();
         setUserDetails();
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -71,6 +84,19 @@ int SELECT_PICTURE=13102010;
                 imageChooser();
             }
         });
+
+
+        String img=retrieveFromPreferences("userImage");
+        Picasso.get()
+                .load(img)
+                .resize(100, 100).centerCrop()
+                .transform(new CropCircleTransformation())
+                .into(binding.userProfile);
+
+
+
+        Log.d("user",img);
+
 
     }
 
@@ -131,7 +157,14 @@ int SELECT_PICTURE=13102010;
                 Uri selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
-                    binding.userProfile.setImageURI(selectedImageUri);
+                    saveToPreferences("userImage",selectedImageUri.toString());
+                    binding.userProfile.setImageURI(null);
+                    Picasso.get()
+                            .load(selectedImageUri).placeholder(R.drawable.profilephoto)
+                            .resize(100, 100).centerCrop()
+                            .transform(new CropCircleTransformation())
+                            .into(binding.userProfile);
+                    binding.userProfile.refreshDrawableState();
                     binding.userProfile.setMaxWidth(6);
                     binding.userProfile.setMaxHeight(12);
                     // Get the file extension
@@ -158,6 +191,7 @@ int SELECT_PICTURE=13102010;
                                         public void onSuccess(Uri uri) {
                                             Log.d("user","uri save in process");
                                             insertImageUrlintoUserData(uri.toString());
+                                            saveToPreferences("userImage",uri.toString());
                                             progressDialog.dismiss();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -181,11 +215,7 @@ int SELECT_PICTURE=13102010;
             }
                 }
             }
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
+
     // Retrieve user's name
     public static String getUserName(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -222,5 +252,32 @@ int SELECT_PICTURE=13102010;
         });
 
 
+    }
+    private void saveToPreferences(String key, String value) {
+        // Get the SharedPreferences instance
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        // Use SharedPreferences.Editor to save values
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    private String retrieveFromPreferences(String key) {
+        // Get the SharedPreferences instance
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        // Retrieve the value associated with the key
+        // The second parameter is the default value to return if the key is not found
+        return preferences.getString(key, "");
+    }
+    void setTopBarColor() {
+        // Check if the device is running on Lollipop or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Get the window object
+            Window window = getWindow();
+
+            // Set the status bar color to the colorPrimaryDark defined in your theme
+            window.setStatusBarColor(getResources().getColor(R.color.hometheme, getTheme()));
+        }
     }
         }

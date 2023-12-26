@@ -14,11 +14,13 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.example.chatme.Adapter.fragmentAdapter;
@@ -45,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         AppVisibilityTracker.getInstance().setAppInForeground(true);//flag for notification
-
+setTopBarColor();
     }
 
     @Override
@@ -229,5 +231,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onRestart();
         Log.d("life activity","restart  homescreen");
     }
+    void setTopBarColor() {
+        // Check if the device is running on Lollipop or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Get the window object
+            Window window = getWindow();
 
+            // Set the status bar color to the colorPrimaryDark defined in your theme
+            window.setStatusBarColor(getResources().getColor(R.color.themeeeeeeeeeee, getTheme()));
+        }
+    }
 }

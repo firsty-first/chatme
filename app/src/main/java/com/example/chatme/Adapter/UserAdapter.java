@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatme.R;
 import com.example.chatme.UserModel;
 import com.example.chatme.chatscreen;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -46,7 +49,7 @@ Context context;
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 UserModel userModel= data.get((position));
-        //Picasso.get().load(userModel.getProfile_pic()).placeholder(R.drawable.chat).into((Target) holder.imageView);
+        Picasso.get().load(userModel.getProfilepic()).placeholder(R.drawable.defaultuserprofile).into( holder.imageView1);
         holder.userName.setText(userModel.getUserName());
 
         holder.hobbey.setText(userModel.getHobbey());
@@ -144,11 +147,13 @@ System.out.println("distance between it"+ R*c);
     public class ViewHolder extends RecyclerView.ViewHolder
 {
 CardView imageView;
+ImageView imageView1;
 ProgressBar progressBar;
 TextView userName,lastMessage,hobbey,availability,about;
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView=itemView.findViewById(R.id.userImg);
+        imageView1=itemView.findViewById(R.id.photo);
         userName=itemView.findViewById(R.id.userName);
         about=itemView.findViewById(R.id.about);
         hobbey=itemView.findViewById(R.id.hobbey);

@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 public class chatscreen extends AppCompatActivity {
     ChatscreenUiActivityBinding binding;
     FirebaseDatabase database;
@@ -68,7 +70,13 @@ public class chatscreen extends AppCompatActivity {
         String recieverImg = getIntent().getStringExtra("profilePic");
         String recieverName = getIntent().getStringExtra("userName");
         binding.name.setText(recieverName);
-        Picasso.get().load(recieverImg).placeholder(R.drawable.parrot).into(binding.userImage);
+
+        Picasso.get().load(recieverImg)
+                .placeholder(R.drawable.parrot)
+                .transform(new CropCircleTransformation())
+                .centerCrop()
+                .fit()
+                .into(binding.userImage);
         binding.backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
