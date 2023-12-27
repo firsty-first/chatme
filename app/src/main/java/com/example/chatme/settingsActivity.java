@@ -6,9 +6,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.MimeTypeMap;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.example.chatme.databinding.ActivitySettingsBinding;
@@ -41,31 +44,40 @@ import java.util.Map;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class settingsActivity extends AppCompatActivity {
-FirebaseDatabase database;
-FirebaseAuth auth;
+    FirebaseDatabase database;
+    FirebaseAuth auth;
     private DatabaseReference databaseReference;
     private static final String PREF_NAME = "MyAppPreferences";
     private static final String KEY_NAME = "user_name";
     private static final String KEY_EMAIL = "user_email";
     private StorageReference storageReference;
     private ProgressDialog progressDialog;
-ActivitySettingsBinding binding;
-int SELECT_PICTURE=13102010;
+    ActivitySettingsBinding binding;
+    int SELECT_PICTURE = 13102010;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+
     @Override
     protected void onStart() {
         super.onStart();
-        database=FirebaseDatabase.getInstance();
-        auth=FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivitySettingsBinding.inflate(getLayoutInflater());
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.logoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showSignOutConfirmationDialog();
+
+                  }
+        });
         binding.settingback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +98,7 @@ int SELECT_PICTURE=13102010;
         });
 
 
-        String img=retrieveFromPreferences("userImage");
+        String img = retrieveFromPreferences("userImage");
         Picasso.get()
                 .load(img)
                 .resize(100, 100).centerCrop()
@@ -94,8 +106,7 @@ int SELECT_PICTURE=13102010;
                 .into(binding.userProfile);
 
 
-
-        Log.d("user",img);
+        Log.d("user", img);
 
 
     }
@@ -114,16 +125,14 @@ int SELECT_PICTURE=13102010;
         DatabaseReference userReference = databaseReference.child(currentuser.getUid());
 
         //
-        if(currentuser.getPhotoUrl()==null)
-        {
+        if (currentuser.getPhotoUrl() == null) {
             binding.userProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //startActivity(new Intent(this,));
                 }
             });
-        }
-        else {
+        } else {
             binding.userProfile.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -131,10 +140,10 @@ int SELECT_PICTURE=13102010;
                 }
             });
         }
-        }
+    }
 
-        // the Select Image Button is clicked
-        void imageChooser() {
+    // the Select Image Button is clicked
+    void imageChooser() {
 
 
         Intent i = new Intent();
@@ -143,9 +152,9 @@ int SELECT_PICTURE=13102010;
         startActivityForResult(Intent.createChooser(i, "Select a nice profile picture"), SELECT_PICTURE);
     }
 
-        // this function is triggered when user
-        // selects the image from the imageChooser
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // this function is triggered when user
+    // selects the image from the imageChooser
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
@@ -157,7 +166,7 @@ int SELECT_PICTURE=13102010;
                 Uri selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
-                    saveToPreferences("userImage",selectedImageUri.toString());
+                    saveToPreferences("userImage", selectedImageUri.toString());
                     binding.userProfile.setImageURI(null);
                     Picasso.get()
                             .load(selectedImageUri).placeholder(R.drawable.profilephoto)
@@ -168,7 +177,7 @@ int SELECT_PICTURE=13102010;
                     binding.userProfile.setMaxWidth(6);
                     binding.userProfile.setMaxHeight(12);
                     // Get the file extension
-                   // String fileExtension = getFileExtension(selectedImageUri);
+                    // String fileExtension = getFileExtension(selectedImageUri);
 
                     // Generate a unique filename for the uploaded image
                     String fileName = auth.getCurrentUser().getUid();
@@ -184,21 +193,21 @@ int SELECT_PICTURE=13102010;
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     progressDialog.dismiss();
-                                    Log.d("user","important it is");
+                                    Log.d("user", "important it is");
                                     storageReference.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            Log.d("user","uri save in process");
+                                            Log.d("user", "uri save in process");
                                             insertImageUrlintoUserData(uri.toString());
-                                            saveToPreferences("userImage",uri.toString());
+                                            saveToPreferences("userImage", uri.toString());
                                             progressDialog.dismiss();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d("user","cant get link");
-                                            Log.d("user",e.getMessage());
+                                            Log.d("user", "cant get link");
+                                            Log.d("user", e.getMessage());
                                         }
                                     });
 
@@ -213,8 +222,8 @@ int SELECT_PICTURE=13102010;
                             });
                 }
             }
-                }
-            }
+        }
+    }
 
     // Retrieve user's name
     public static String getUserName(Context context) {
@@ -227,9 +236,10 @@ int SELECT_PICTURE=13102010;
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_EMAIL, "");
     }
+
     public void insertImageUrlintoUserData(String uri) {
         // Get current user ID from FirebaseAuth
-        Log.d("user","uri save in process 2");
+        Log.d("user", "uri save in process 2");
         String userId = auth.getCurrentUser().getUid();
 
         // Push the user object to the database
@@ -241,18 +251,19 @@ int SELECT_PICTURE=13102010;
         database.getReference().child("user").child(userId).updateChildren(userUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.d("user","uri save success");
+                Log.d("user", "uri save success");
                 Toast.makeText(settingsActivity.this, "success", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("user","uri save failed");
+                Log.d("user", "uri save failed");
             }
         });
 
 
     }
+
     private void saveToPreferences(String key, String value) {
         // Get the SharedPreferences instance
         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -262,6 +273,7 @@ int SELECT_PICTURE=13102010;
         editor.putString(key, value);
         editor.apply();
     }
+
     private String retrieveFromPreferences(String key) {
         // Get the SharedPreferences instance
         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -270,6 +282,7 @@ int SELECT_PICTURE=13102010;
         // The second parameter is the default value to return if the key is not found
         return preferences.getString(key, "");
     }
+
     void setTopBarColor() {
         // Check if the device is running on Lollipop or higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -280,4 +293,26 @@ int SELECT_PICTURE=13102010;
             window.setStatusBarColor(getResources().getColor(R.color.hometheme, getTheme()));
         }
     }
-        }
+
+    private void showSignOutConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(settingsActivity.this);
+        builder.setMessage("Are you sure you want to sign out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked Yes, sign out
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(settingsActivity.this, signInActivity.class));
+                        finish(); // Optionally finish the current activity
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked No, do nothing or handle accordingly
+                        Log.d("user", "Noooooooooooooooo");
+                    }
+                });
+        // Create and show the AlertDialog
+        builder.create().show();
+    }
+
+}

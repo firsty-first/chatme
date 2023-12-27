@@ -163,6 +163,7 @@
                 style="@style/profileDetailsImage" />
 
             <TextView
+                android:id="@+id/logoutbtn"
                 style="@style/profileDetailsTextMain"
                 android:layout_toRightOf="@id/dobImageView"
                 android:padding="3dp"

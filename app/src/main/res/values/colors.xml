@@ -14,6 +14,7 @@
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#11CFC5</color>
     <color name="themeColor">#11CFC5</color>
+    <color name="signuptheme">#11CFA3</color>
 
     <color name="darkTextColor">#021011</color>
     <color name="contentTextColor">#021011</color>

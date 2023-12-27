@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.example.chatme.databinding.ActivityMainBinding;
@@ -82,5 +84,16 @@ binding=ActivityMainBinding.inflate(getLayoutInflater());
         super.onStart();
         firebaseAuth=FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
+        setTopBarColor();
+    }
+    void setTopBarColor() {
+        // Check if the device is running on Lollipop or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Get the window object
+            Window window = getWindow();
+
+            // Set the status bar color to the colorPrimaryDark defined in your theme
+            window.setStatusBarColor(getResources().getColor(R.color.signuptheme, getTheme()));
+        }
     }
 }
