@@ -94,17 +94,15 @@ public class chatFragment extends Fragment {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren())
                 {
                     UserModel userModel=dataSnapshot.getValue(UserModel.class);
-
-              userModel.setUserId(dataSnapshot.getKey());
-              Log.d("user",auth.getCurrentUser().getUid());
-              Log.d("user",auth.getCurrentUser().getEmail());
-             if( auth.getCurrentUser().getUid().equals(userModel.getUserId())) {
-                 Log.d("user","entered into if");
-                 userModel.setUserName(userModel.getUserName() + "(Me)");
-                 saveUserName(getContext(),userModel.getUserName().substring(0,userModel.getUserName().length()-4));
-                 saveUserEmail(getContext(),userModel.getMail());
+                    userModel.setUserId(dataSnapshot.getKey());
+                    Log.d("user",auth.getCurrentUser().getUid());
+                    Log.d("user",auth.getCurrentUser().getEmail());
+                     if( auth.getCurrentUser().getUid().equals(userModel.getUserId())) {
+                        Log.d("user","entered into if");
+                        userModel.setUserName(userModel.getUserName() + "(Me)");
+                        saveUserName(getContext(),userModel.getUserName().substring(0,userModel.getUserName().length()-4));
+                        saveUserEmail(getContext(),userModel.getMail());
              }
-
               binding.dashboardname.setText("Howdy ,"+getUserName(getContext()));
                     arrayList.add(userModel);
                     adapter=new UserAdapter(arrayList,getContext(),Double.parseDouble(sharedPreferences.getString("latitude","0")),Double.parseDouble(sharedPreferences.getString("longitude","0")));

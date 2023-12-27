@@ -66,7 +66,7 @@
                     android:layout_height="15dp"
                     android:layout_marginLeft="70dp"
                     android:progress="10"
-                    android:max="1200"
+                    android:max="3799"
                     android:progressDrawable="@drawable/progressbar"
                     android:progressTint="#143d59"
                     android:minHeight="15dp"

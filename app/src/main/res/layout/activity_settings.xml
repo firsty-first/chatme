@@ -35,8 +35,8 @@
 
             <ImageView
                 android:id="@+id/userProfile"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:background="@drawable/profilephoto"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/parrot"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/userProfile"
                 app:layout_constraintStart_toStartOf="parent"
