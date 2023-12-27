@@ -78,6 +78,14 @@ public class settingsActivity extends AppCompatActivity {
 
                   }
         });
+        binding.dobImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showSignOutConfirmationDialog();
+
+            }
+        });
         binding.settingback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
