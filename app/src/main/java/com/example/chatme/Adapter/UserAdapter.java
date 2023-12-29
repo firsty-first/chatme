@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatme.MapUtils;
 import com.example.chatme.R;
 import com.example.chatme.UserModel;
 import com.example.chatme.chatscreen;
@@ -61,7 +62,7 @@ UserModel userModel= data.get((position));
         holder.imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showdialogue(userModel.getUserId(),userModel.getUserName(),userModel.getProfilepic());
+                showdialogue(userModel.getUserId(),userModel.getUserName(),userModel.getProfilepic(),userModel.getLatitude(),userModel.getLongitude());
             }
         });
 
@@ -135,7 +136,7 @@ System.out.println("distance between it"+ R*c);
         // Calculate distance
         return R * c;
     }
-    void showdialogue(String userId, String name,String profilepic)
+    void showdialogue(String userId, String name,String profilepic,double lati, double longi)
     {
         Dialog dialog=new Dialog(context);
         dialog.setContentView(R.layout.dialoguepreview);
@@ -158,6 +159,13 @@ System.out.println("distance between it"+ R*c);
             }
         });
         ImageView callbuttonDialog=dialog.findViewById(R.id.calllBtnDialog);
+        ImageView locationbuttonDialog=dialog.findViewById(R.id.locationBtnDialog);
+        locationbuttonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MapUtils.openGoogleMaps(context,Double.toString(lati),Double.toString(longi),"taking you there");
+            }
+        });
         callbuttonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

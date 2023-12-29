@@ -9,7 +9,7 @@
         android:id="@+id/nameDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-     android:background="#085AB4"
+     android:background="#5843D2"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:padding="9dp"
@@ -44,5 +44,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/baseline_call_24" />
+        <ImageView
+            android:id="@+id/locationBtnDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_add_location_24" />
     </LinearLayout>
 </LinearLayout>
