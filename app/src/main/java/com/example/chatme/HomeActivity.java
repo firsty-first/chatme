@@ -131,11 +131,13 @@ setTopBarColor();
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
+
                     Log.d("location",Integer.toString(status));
                 }
 
                 @Override
                 public void onProviderEnabled(String provider) {
+
                     Log.d("location","provider enabled");
                 }
 

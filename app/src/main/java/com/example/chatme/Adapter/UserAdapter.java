@@ -2,11 +2,15 @@ package com.example.chatme.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -63,11 +67,33 @@ UserModel userModel= data.get((position));
             @Override
             public void onClick(View view) {
                 showdialogue(userModel.getUserId(),userModel.getUserName(),userModel.getProfilepic(),userModel.getLatitude(),userModel.getLongitude());
+
             }
         });
 
-  double distance=distance(latitude,longitude,userModel.getLatitude(),userModel.getLongitude());
-      holder.progressBar.setProgress((int)distance);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+// Retrieve values using keys
+        String latitudeString = sharedPreferences.getString("latitude", "0");
+        String longitudeString = sharedPreferences.getString("longitude", "0");
+Log.d("distance lati","my device"+latitudeString);
+Log.d("distance long","my device"+longitudeString);
+Log.d("distance lat",userModel.getUserName()+"," +userModel.getLatitude());
+Log.d("distance long",userModel.getUserName()+"," +userModel.getLongitude());
+// Convert strings to double
+      latitude = Double.parseDouble(latitudeString);
+        longitude = Double.parseDouble(longitudeString);
+
+// Now you have the latitude and longitude values
+
+
+
+        double distance=distance(latitude,longitude,userModel.getLatitude(),userModel.getLongitude());
+      holder.progressBar.setProgress((int)(distance));
+     // holder.progressBar.setMax(holder.progressBar.getMax()*10);
+      //Log.d("progressbar",Integer.toString(holder.progressBar.getMax()*10));
+     // Log.d("progressbar",Integer.toString(distance*10));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +136,7 @@ UserModel userModel= data.get((position));
         double r = 6371;
         Log.d("distance",Double.toString(c*r));
         // calculate the result
-        return(c * r);
+        return Math.ceil(c * r);
     }
 
     private static double calculateHaversineDistance(double lat1, double lon1,double lat2,double lon2) {
@@ -134,12 +160,18 @@ UserModel userModel= data.get((position));
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 System.out.println("distance between it"+ R*c);
         // Calculate distance
-        return R * c;
+        Log.d("distance with ceil",Double.toString(Math.ceil(R * c)));
+        return Math.ceil(R * c);
     }
     void showdialogue(String userId, String name,String profilepic,double lati, double longi)
     {
         Dialog dialog=new Dialog(context);
         dialog.setContentView(R.layout.dialoguepreview);
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+        dialog.findViewById(R.id.messageBtnDialog).startAnimation(animation);
+        dialog.findViewById(R.id.calllBtnDialog).startAnimation(animation);
+        dialog.findViewById(R.id.vidCall).startAnimation(animation);
+        dialog.findViewById(R.id.locationBtnDialog).startAnimation(animation);
         ImageView messagebuttonDialog=dialog.findViewById(R.id.messageBtnDialog);
        TextView nameDialog=dialog.findViewById(R.id.nameDialog);
        ImageView profile=dialog.findViewById(R.id.profilephotoDialog);
@@ -172,10 +204,7 @@ System.out.println("distance between it"+ R*c);
                 Toast.makeText(context, "This feature will come soon", Toast.LENGTH_SHORT).show();
             }
         });
-
         dialog.show();
-
-
     }
     @Override
     public int getItemCount() {
@@ -185,7 +214,6 @@ System.out.println("distance between it"+ R*c);
     public Filter getFilter() {
         return filter;
     }
-
     Filter filter=new Filter() {
         @Override
         // background thread
@@ -235,7 +263,6 @@ TextView userName,lastMessage,hobbey,availability,about;
         hobbey=itemView.findViewById(R.id.hobbey);
         availability=itemView.findViewById(R.id.availability);
         progressBar=itemView.findViewById(R.id.progressBarprofile);
-
     }
 }
 }

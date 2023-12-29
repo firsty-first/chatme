@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:id="@+id/dialog_content"
     android:layout_height="wrap_content"
 
     android:orientation="vertical">
@@ -9,9 +10,9 @@
         android:id="@+id/nameDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-     android:background="#5843D2"
+     android:background="@color/teal_700"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="21sp"
         android:padding="9dp"
         android:paddingStart="28dp"
         android:text="Name" />
@@ -45,10 +46,17 @@
             android:layout_weight="1"
             android:src="@drawable/baseline_call_24" />
         <ImageView
+            android:id="@+id/vidCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/videocall" />
+        <ImageView
             android:id="@+id/locationBtnDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/baseline_add_location_24" />
+
     </LinearLayout>
 </LinearLayout>

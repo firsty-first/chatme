@@ -1,7 +1,6 @@
 package com.example.chatme;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,8 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 public class chatFragment extends Fragment {
@@ -131,7 +128,7 @@ binding.chatRv.smoothScrollToPosition(0);
                     });
 
                 }
-                searc();
+                searchUserInChatFrag();
 
             }
 
@@ -151,7 +148,7 @@ binding.chatRv.smoothScrollToPosition(0);
 
       return  binding.getRoot();
     }
-    void searc()
+    void searchUserInChatFrag()
     {
 
 
@@ -186,20 +183,46 @@ binding.chatRv.smoothScrollToPosition(0);
     }
     // Save user's name
     public static void saveUserName(Context context, String name) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_NAME, name);
-        editor.apply();
+        try {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+
+            // Check if the name is not already saved before saving
+            if (!sharedPreferences.contains(KEY_NAME)) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(KEY_NAME, name);
+                editor.apply();
+            }
+        } catch (Exception e) {
+            Log.e("error", e.getMessage().toString());
+        }
     }
+
+
     // Save user's email
     public static void saveUserEmail(Context context, String email) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_EMAIL, email);
-        editor.apply();
+        try {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+
+            // Check if the email is not already saved before saving
+            if (!sharedPreferences.contains(KEY_EMAIL)) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(KEY_EMAIL, email);
+                editor.apply();
+            }
+        } catch (Exception e) {
+            Log.d("error", e.getMessage().toString());
+        }
     }
+
+
     public static String getUserName(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_NAME, "");
+        try {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+            return sharedPreferences.getString(KEY_NAME, "myname");
+        } catch (Exception e) {
+            Log.e("error", e.getMessage().toString());
+        }
+        return "myname";
     }
+
 }

@@ -41,7 +41,7 @@
                     android:layout_marginLeft="70dp"
                     android:layout_marginTop="34dp"
                     android:gravity="left"
-                    android:text="Devabrath Sahu"
+                    android:text="Gaurav singh"
                     android:textStyle="bold"
                     android:textAlignment="gravity"
                     android:textColor="#10334e"
@@ -62,14 +62,15 @@
                 <ProgressBar
                     android:id="@+id/progressBarprofile"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:layout_marginLeft="70dp"
                     android:progress="10"
-                    android:max="3799"
+                    android:max="3000"
                     android:progressDrawable="@drawable/progressbar"
                     android:progressTint="#143d59"
                     android:minHeight="15dp"
+                    android:paddingEnd="10dp"
                     android:layout_marginTop="90dp"
                     android:gravity="left"
                     android:textAlignment="gravity" />
@@ -152,11 +153,11 @@
                 android:id="@+id/photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:src="@drawable/parrot"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayout5"
                 app:layout_constraintTop_toTopOf="parent"
                 />
+
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
