@@ -61,7 +61,7 @@ UserModel userModel= data.get((position));
         holder.imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showdialogue(userModel.getUserName(),userModel.getProfilepic());
+                showdialogue(userModel.getUserId(),userModel.getUserName(),userModel.getProfilepic());
             }
         });
 
@@ -135,7 +135,7 @@ System.out.println("distance between it"+ R*c);
         // Calculate distance
         return R * c;
     }
-    void showdialogue(String name,String profilepic)
+    void showdialogue(String userId, String name,String profilepic)
     {
         Dialog dialog=new Dialog(context);
         dialog.setContentView(R.layout.dialoguepreview);
@@ -148,7 +148,13 @@ System.out.println("distance between it"+ R*c);
         messagebuttonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                Intent intent=new Intent(context, chatscreen.class);
+
+                intent.putExtra("userId",userId);
+                intent.putExtra("userName",name);
+                intent.putExtra("profilePic",profilepic);
+//              intent.putExtra("userId",userModel.getLastMessage());
+                context.startActivity(intent);
             }
         });
         ImageView callbuttonDialog=dialog.findViewById(R.id.calllBtnDialog);
@@ -160,7 +166,7 @@ System.out.println("distance between it"+ R*c);
         });
 
         dialog.show();
-Log.d("display","dialog shown on click");
+
 
     }
     @Override
