@@ -107,7 +107,7 @@ Log.d("distance long",userModel.getUserName()+"," +userModel.getLongitude());
                 context.startActivity(intent);
             }
         });
-
+holder.distanceTv.setText((int) distance+"km away");
     }
     public static double distance(double lat1,
                                   double lon1, double lat2,
@@ -253,7 +253,7 @@ System.out.println("distance between it"+ R*c);
 CardView imageView;
 ImageView imageView1;
 ProgressBar progressBar;
-TextView userName,lastMessage,hobbey,availability,about;
+TextView userName,lastMessage,hobbey,availability,about,distanceTv;
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView=itemView.findViewById(R.id.userImg);
@@ -263,6 +263,7 @@ TextView userName,lastMessage,hobbey,availability,about;
         hobbey=itemView.findViewById(R.id.hobbey);
         availability=itemView.findViewById(R.id.availability);
         progressBar=itemView.findViewById(R.id.progressBarprofile);
+        distanceTv=itemView.findViewById(R.id.distanceTv);
     }
 }
 }

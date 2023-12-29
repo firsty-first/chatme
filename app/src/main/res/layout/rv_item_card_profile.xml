@@ -63,7 +63,7 @@
                     android:id="@+id/progressBarprofile"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="11dp"
                     android:layout_marginLeft="70dp"
                     android:progress="10"
                     android:max="3000"
@@ -116,14 +116,18 @@
                     android:visibility="gone"
                     android:textColor="#10334e"/>
 
-                <ImageView
-                    android:id="@+id/icon2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <TextView
+                    android:id="@+id/distanceTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/bluebg"
                     android:layout_gravity="left|center"
                     android:layout_marginLeft="125dp"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_marginTop="12dp"
+                    android:textColor="#10334e"
+
+                    android:text="xy km away"
+                    />
 
                 <ImageView
                     android:id="@+id/icon1"
