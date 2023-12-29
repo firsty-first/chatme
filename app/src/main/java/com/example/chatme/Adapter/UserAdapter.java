@@ -1,5 +1,6 @@
 package com.example.chatme.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -56,6 +58,12 @@ UserModel userModel= data.get((position));
         holder.availability.setText(userModel.getAvailability());
 
         holder.about.setText("Status: "+userModel.getAbout());
+        holder.imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showdialogue(userModel.getUserName(),userModel.getProfilepic());
+            }
+        });
 
   double distance=distance(latitude,longitude,userModel.getLatitude(),userModel.getLongitude());
       holder.progressBar.setProgress((int)distance);
@@ -70,8 +78,6 @@ UserModel userModel= data.get((position));
                 intent.putExtra("profilePic",userModel.getProfilepic());
 //              intent.putExtra("userId",userModel.getLastMessage());
                 context.startActivity(intent);
-
-
             }
         });
 
@@ -129,12 +135,38 @@ System.out.println("distance between it"+ R*c);
         // Calculate distance
         return R * c;
     }
+    void showdialogue(String name,String profilepic)
+    {
+        Dialog dialog=new Dialog(context);
+        dialog.setContentView(R.layout.dialoguepreview);
+        ImageView messagebuttonDialog=dialog.findViewById(R.id.messageBtnDialog);
+       TextView nameDialog=dialog.findViewById(R.id.nameDialog);
+       ImageView profile=dialog.findViewById(R.id.profilephotoDialog);
+
+       nameDialog.setText(name);
+        Picasso.get().load(profilepic).placeholder(R.drawable.defaultuserprofile).resize(500,540).into(profile);
+        messagebuttonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        ImageView callbuttonDialog=dialog.findViewById(R.id.calllBtnDialog);
+        callbuttonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "This feature will come soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+Log.d("display","dialog shown on click");
+
+    }
     @Override
     public int getItemCount() {
         return data.size();
     }
-
-
     @Override
     public Filter getFilter() {
         return filter;
