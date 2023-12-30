@@ -1,13 +1,21 @@
 package com.example.chatme;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +25,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.example.chatme.Adapter.UserAdapter;
 import com.example.chatme.databinding.FragmentChatBinding;
@@ -27,11 +37,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class chatFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION =2 ;
     private String mParam1;
     private String mParam2;
     FragmentChatBinding binding;
@@ -58,6 +73,7 @@ public class chatFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +90,25 @@ public class chatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        startLocationUpdates();
       binding= FragmentChatBinding.inflate(inflater, container, false);
         SharedPreferences sharedPreferences =getContext(). getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+binding.switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(b)
+            GPSUtils.openGPSSettings(getContext());
 
+
+
+    }
+});
+binding.dismissBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        binding.gpsTurn.setVisibility(View.GONE);
+    }
+});
         Log.d("locfromShared",sharedPreferences.getString("latitude","0").toString()+","+sharedPreferences.getString("longitude"," ").toString());
         binding.optionbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +147,7 @@ binding.chatRv.smoothScrollToPosition(0);
                 adapter.notifyDataSetChanged();
                 if (arrayList.size() > 0) {
                     int lastItemPosition = arrayList.size() - 1;
-                    binding.chatRv.scrollToPosition(lastItemPosition);
+                    //binding.chatRv.scrollToPosition(lastItemPosition);
 
                     binding.chatRv.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
                         @Override
@@ -129,6 +160,7 @@ binding.chatRv.smoothScrollToPosition(0);
 
                 }
                 searchUserInChatFrag();
+
 
             }
 
@@ -169,17 +201,26 @@ binding.chatRv.smoothScrollToPosition(0);
     }
 
     //saving in user node
-    public void createUserNode(String userName, String mail, String password, String lastMessage,
-                               String hobbey, String location, String availability, String about) {
+    public void createUserNode(double latitude, double longitude) {
         // Get current user ID from FirebaseAuth
         String userId = auth.getCurrentUser().getUid();
 
-        // Create a new User object
         UserModel user = new UserModel();
 
-
         // Push the user object to the database
-        database.getReference().child("users").child(userId).setValue(user);
+        Map<String, Object> userUpdates = new HashMap<>();
+
+        userUpdates.put("latitude",latitude);
+        userUpdates.put("longitude",longitude);
+
+
+
+        // Update the specific fields within the user node
+        database.getReference().child("user").child(userId).updateChildren(userUpdates);
+
+
+
+
     }
     // Save user's name
     public static void saveUserName(Context context, String name) {
@@ -196,8 +237,6 @@ binding.chatRv.smoothScrollToPosition(0);
             Log.e("error", e.getMessage().toString());
         }
     }
-
-
     // Save user's email
     public static void saveUserEmail(Context context, String email) {
         try {
@@ -214,7 +253,6 @@ binding.chatRv.smoothScrollToPosition(0);
         }
     }
 
-
     public static String getUserName(Context context) {
         try {
             SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -223,6 +261,112 @@ binding.chatRv.smoothScrollToPosition(0);
             Log.e("error", e.getMessage().toString());
         }
         return "myname";
+    }
+
+    private void startLocationUpdates() {
+        // Check if location services are enabled
+        LocationManager locationManager1 = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
+
+        if (locationManager1 != null) {
+            // Define a listener that responds to location updates
+            Log.d("location","null nhi hai");
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    // Called when a new location is found
+                    Log.d("location","listener ke andar");
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    //String myloc=Double.toString(latitude)+","+Double.toString(longitude);
+                    createUserNode(latitude,longitude);
+                    Log.d("location", "Latitude: " + latitude + ", ongitude: " + longitude);
+                    // Get SharedPreferences instance
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+// Get SharedPreferences editor
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+// Put the string value
+                    editor.putString("latitude", Double.toString(latitude));
+                    editor.putString("longitude", Double.toString(longitude));
+
+// Apply changes
+                    editor.apply();
+
+                    // You can use the location data as needed
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    Log.d("location",Integer.toString(status));
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                    Log.d("location","provider enabled");
+                    binding.gpsTurn.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                    Log.d("location","provider disabled");
+                    binding.gpsTurn.setVisibility(View.VISIBLE);
+                }
+            };
+
+            // Register the listener with the Location Manager to receive location updates
+            if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+
+
+                return;
+            }
+            locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, 9000, 100, locationListener);
+        }
+        else
+            Log.d("location","null hai");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, start location updates
+                startLocationUpdates();
+            } else {
+                // Permission denied, handle accordingly
+                Log.e("permission", "Location permission denied");
+            }
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Check GPS status when the fragment comes back into the foreground
+        if (binding.switch1.isChecked()) {
+            // The switch is ON, check if GPS is enabled
+            if (!GPSUtils.isGPSEnabled(requireContext())) {
+                // GPS is not enabled, handle it (e.g., show a message to the user)
+                binding.switch1.setChecked(false); // Turn off the switch since GPS is not enabled
+            }
+        }
     }
 
 }

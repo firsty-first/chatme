@@ -58,6 +58,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/accInfo"
             style="@style/headerText"
             android:text="Account Info"
             android:textColor="@color/white"

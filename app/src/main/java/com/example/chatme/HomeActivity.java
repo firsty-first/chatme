@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -39,8 +40,6 @@ public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
     FirebaseAuth auth;
     FirebaseDatabase database;
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -55,6 +54,10 @@ setTopBarColor();
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Set the orientation to portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
         auth = FirebaseAuth.getInstance();
         //  getSupportActionBar().show();
         binding.viewpager.setAdapter(new fragmentAdapter(getSupportFragmentManager()));
@@ -62,7 +65,7 @@ setTopBarColor();
         // Check for location permission
 
             // Permission already granted, request location updates
-            startLocationUpdates();
+           // startLocationUpdates();
 
 
     }
@@ -139,6 +142,7 @@ setTopBarColor();
                 public void onProviderEnabled(String provider) {
 
                     Log.d("location","provider enabled");
+
                 }
 
                 @Override

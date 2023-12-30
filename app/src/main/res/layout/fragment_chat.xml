@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:configChanges="orientation|screenSize"
     tools:context=".chatFragment">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
@@ -85,6 +86,59 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/gpsTurn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:padding="8dp"
+
+        >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textSize="18sp"
+            android:textColor="@color/teal_700"
+            android:text="Gps is turned off" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+
+
+            android:gravity="start"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/dismissBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            app:cardCornerRadius="15dp"
+            android:padding="0dp"
+            app:cardUseCompatPadding="true"
+            android:layout_gravity="end"
+             >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@drawable/dismissbg"
+                android:text="Dismiss" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_rv"
         android:layout_width="match_parent"

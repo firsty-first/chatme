@@ -54,7 +54,8 @@ Context context;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
 UserModel userModel= data.get((position));
         Picasso.get().load(userModel.getProfilepic()).placeholder(R.drawable.defaultuserprofile).into( holder.imageView1);
         holder.userName.setText(userModel.getUserName());

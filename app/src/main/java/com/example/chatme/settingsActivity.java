@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -54,6 +56,17 @@ public class settingsActivity extends AppCompatActivity {
         super.onStart();
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
+
+        binding.accInfo.startAnimation(animation);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
+
+        binding.accInfo.startAnimation(animation);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
