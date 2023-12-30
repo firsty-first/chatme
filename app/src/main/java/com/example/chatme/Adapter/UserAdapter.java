@@ -2,7 +2,6 @@ package com.example.chatme.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Filter;
@@ -29,9 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatme.MapUtils;
 import com.example.chatme.R;
 import com.example.chatme.UserModel;
+import com.example.chatme.ZoomableImageView;
 import com.example.chatme.chatscreen;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -169,17 +168,35 @@ System.out.println("distance between it"+ R*c);
     {
         Dialog dialog=new Dialog(context);
         dialog.setContentView(R.layout.imagepreview);
-        ImageView profilePreview=dialog.findViewById(R.id.previewImageView);
-        Picasso.get().load(profilepic).placeholder(R.drawable.defaultuserprofile).into(profilePreview);
+        ZoomableImageView profilePreview = dialog.findViewById(R.id.zoomableImageView);
+
+        Picasso.get().load(profilepic)
+                .placeholder(R.drawable.defaultuserprofile)
+                .into(profilePreview, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        // Image loaded successfully
+                        Log.d("zombie","success loaded");
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        // Log or handle the error
+                        e.printStackTrace();
+                        Log.d("zombie","failed");
+                        Log.d("zombie",e.getMessage());
+                    }
+                });
+
         dialog.setCanceledOnTouchOutside(false);
         Window window = dialog.getWindow();
         if (window != null) {
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
-            layoutParams.dimAmount = 0.8f; // Set the dim amount (0 to 1) to control darkness
-            window.setAttributes(layoutParams);
+
         }
+
 dialog.show();
+
     }
     void showdialogue(String userId, String name,String profilepic,double lati, double longi)
     {
