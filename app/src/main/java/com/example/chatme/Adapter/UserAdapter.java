@@ -68,7 +68,6 @@ UserModel userModel= data.get((position));
             @Override
             public void onClick(View view) {
                 showdialogue(userModel.getUserId(),userModel.getUserName(),userModel.getProfilepic(),userModel.getLatitude(),userModel.getLongitude());
-
             }
         });
 
@@ -77,10 +76,7 @@ UserModel userModel= data.get((position));
 // Retrieve values using keys
         String latitudeString = sharedPreferences.getString("latitude", "0");
         String longitudeString = sharedPreferences.getString("longitude", "0");
-Log.d("distance lati","my device"+latitudeString);
-Log.d("distance long","my device"+longitudeString);
-Log.d("distance lat",userModel.getUserName()+"," +userModel.getLatitude());
-Log.d("distance long",userModel.getUserName()+"," +userModel.getLongitude());
+
 // Convert strings to double
       latitude = Double.parseDouble(latitudeString);
         longitude = Double.parseDouble(longitudeString);

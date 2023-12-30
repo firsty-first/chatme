@@ -58,6 +58,8 @@ public class chatFragment extends Fragment {
     private static final String PREF_NAME = "MyAppPreferences";
     private static final String KEY_NAME = "user_name";
     private static final String KEY_EMAIL = "user_email";
+    private LocationManager locationManager1;
+    SharedPreferences sharedPreferences;
 
     public chatFragment() {
         // Required empty public constructor
@@ -83,6 +85,9 @@ public class chatFragment extends Fragment {
         }
         database=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
+        locationManager1 = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
+        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -265,7 +270,6 @@ binding.chatRv.smoothScrollToPosition(0);
 
     private void startLocationUpdates() {
         // Check if location services are enabled
-        LocationManager locationManager1 = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
 
         if (locationManager1 != null) {
             // Define a listener that responds to location updates
@@ -281,7 +285,6 @@ binding.chatRv.smoothScrollToPosition(0);
                     createUserNode(latitude,longitude);
                     Log.d("location", "Latitude: " + latitude + ", ongitude: " + longitude);
                     // Get SharedPreferences instance
-                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
 // Get SharedPreferences editor
                     SharedPreferences.Editor editor = sharedPreferences.edit();
