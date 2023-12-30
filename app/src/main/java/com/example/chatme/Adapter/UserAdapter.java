@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Filter;
@@ -160,6 +164,23 @@ System.out.println("distance between it"+ R*c);
         Log.d("distance with ceil",Double.toString(Math.ceil(R * c)));
         return Math.ceil(R * c);
     }
+    void showDialogPreviewImage(String profilepic) // will be called on pressing on the image in previous dialog
+
+    {
+        Dialog dialog=new Dialog(context);
+        dialog.setContentView(R.layout.imagepreview);
+        ImageView profilePreview=dialog.findViewById(R.id.previewImageView);
+        Picasso.get().load(profilepic).placeholder(R.drawable.defaultuserprofile).into(profilePreview);
+        dialog.setCanceledOnTouchOutside(false);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.dimAmount = 0.8f; // Set the dim amount (0 to 1) to control darkness
+            window.setAttributes(layoutParams);
+        }
+dialog.show();
+    }
     void showdialogue(String userId, String name,String profilepic,double lati, double longi)
     {
         Dialog dialog=new Dialog(context);
@@ -175,6 +196,13 @@ System.out.println("distance between it"+ R*c);
 
        nameDialog.setText(name);
         Picasso.get().load(profilepic).placeholder(R.drawable.defaultuserprofile).resize(500,540).into(profile);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDialogPreviewImage(profilepic);
+            }
+        });
         messagebuttonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
