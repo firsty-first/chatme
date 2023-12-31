@@ -74,82 +74,55 @@
             android:layout_width="match_parent"
 
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/linear"
+            android:contentDescription="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/app_name"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <LinearLayout
-            android:id="@+id/linear"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:paddingTop="2dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="20dp">
 
             <EditText
                 android:id="@+id/editTextText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="9"
-                android:background="@drawable/chat_bg"
-                android:ems="10"
-                android:hint="write here"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|start"
+                android:background="@drawable/edittext_white"
+                android:fontFamily="@font/nats_regular"
+                android:gravity="center_vertical"
+                android:hint="Write a message"
+                android:paddingStart="18dp"
+                android:textSize="15sp" />
 
-                android:inputType="text"
-                android:padding="16dp"
-                android:textColor="@color/white"
-
-                android:textColorHint="@color/chat_editText" />
             <ImageView
-                android:id="@+id/imagebtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_photo_camera_24" />
+                android:id="@+id/attach_file"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="50dp"
+                android:src="@drawable/baseline_photo_camera_24" />
+
             <ImageView
                 android:id="@+id/sendBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/send_24" />
-
-            <ImageView
-                android:id="@+id/voiceassistbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_record_voice_over_24" />
-            <!--            <ImageView-->
-            <!--                android:id="@+id/imageView"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:src="@drawable/baseline_photo_camera_24"-->
-            <!--                android:layout_gravity="start"-->
-            <!--                android:padding="16dp"-->
-            <!--                />-->
-
-            <!--            <EditText-->
-            <!--                android:id="@+id/editText"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:hint="Enter your text here"-->
-            <!--                android:padding="16dp"-->
-            <!--                />-->
-        </LinearLayout>
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/send_img"
+                android:elevation="10dp"
+                android:fontFamily="@font/nats_regular"
+                android:text="Send"
+                android:textAllCaps="false" />
+        </androidx.cardview.widget.CardView>
 
         <!-- Right most TextView -->
 

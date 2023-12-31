@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--Shadow Layer-->
-
+    <!-- Shadow Layer -->
     <item>
         <rotate
             android:fromDegrees="80"
@@ -30,8 +29,7 @@
         </shape>
     </item>
 
-    <!--===============-->
-
+    <!-- Gradient Layers -->
     <item>
         <rotate
             android:fromDegrees="40"
@@ -52,8 +50,6 @@
             <solid android:color="#09000000" />
         </shape>
     </item>
-
-    <!--===============-->
 
     <item>
         <rotate
@@ -82,11 +78,7 @@
         </shape>
     </item>
 
-    <!--===============-->
-
-
-    <!--ForeGround-->
-
+    <!-- Foreground Layer -->
     <item>
         <rotate
             android:fromDegrees="40"
@@ -100,24 +92,21 @@
     </item>
     <item android:right="10dp">
         <shape android:shape="rectangle">
-            <solid android:color="#E18037" />
             <corners android:radius="4dp" />
+            <solid android:color="#E18037" />
         </shape>
         <gradient
             android:type="linear"
             android:startX="38.25"
             android:startY="52"
             android:endX="114.75"
-            android:endY="52"
-            >
+            android:endY="52">
             <item
                 android:color="#FF9023"
-                android:offset="0"
-                />
+                android:offset="0" />
             <item
                 android:color="#A9C144"
-                android:offset="1"
-                />
+                android:offset="1" />
         </gradient>
     </item>
 

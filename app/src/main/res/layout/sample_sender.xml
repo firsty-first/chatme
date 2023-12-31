@@ -11,7 +11,6 @@
     android:minHeight="16dp"
     >
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
@@ -31,14 +30,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="2dp"
-            android:text="message"
             android:gravity="center_vertical"
             android:inputType="textMultiLine"
             android:maxWidth="270dp"
             android:minWidth="50dp"
-            android:textSize="18sp"
             android:padding="6dp"
+            android:text="message"
             android:textColor="#CBFAFB"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
