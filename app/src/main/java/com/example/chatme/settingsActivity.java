@@ -110,8 +110,11 @@ public class settingsActivity extends AppCompatActivity {
 
 
         String img = retrieveFromPreferences("userImage");
+        Log.d("settings",img);
+        if(img.length()>10)
         Picasso.get()
                 .load(img)
+                .placeholder(R.drawable.profilephoto)
                 .resize(100, 100).centerCrop()
                 .transform(new CropCircleTransformation())
                 .into(binding.userProfile);
