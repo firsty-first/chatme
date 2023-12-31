@@ -98,11 +98,15 @@ public class chatFragment extends Fragment {
         startLocationUpdates();
       binding= FragmentChatBinding.inflate(inflater, container, false);
         SharedPreferences sharedPreferences =getContext(). getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-binding.switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if(GPSUtils.isGPSEnabled(getContext()))
+            binding.gpsTurn.setVisibility(View.GONE);
+        binding.switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if(b)
             GPSUtils.openGPSSettings(getContext());
+        if(GPSUtils.isGPSEnabled(getContext()))
+            binding.gpsTurn.setVisibility(View.GONE);
 
 
 
@@ -339,7 +343,7 @@ binding.chatRv.smoothScrollToPosition(0);
 
                 return;
             }
-            locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, 9000, 100, locationListener);
+            locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 100, locationListener);
         }
         else
             Log.d("location","null hai");
@@ -353,8 +357,9 @@ binding.chatRv.smoothScrollToPosition(0);
                 // Permission granted, start location updates
                 startLocationUpdates();
             } else {
+
                 // Permission denied, handle accordingly
-                Log.e("permission", "Location permission denied");
+                Log.d("location", "Location permission denied");
             }
         }
     }
@@ -369,6 +374,8 @@ binding.chatRv.smoothScrollToPosition(0);
                 // GPS is not enabled, handle it (e.g., show a message to the user)
                 binding.switch1.setChecked(false); // Turn off the switch since GPS is not enabled
             }
+            else
+                binding.switch1.setChecked(true);
         }
     }
 
