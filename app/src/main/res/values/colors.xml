@@ -38,4 +38,13 @@
 
     <color name="underline">#D8D6D6</color>
     <color name="lavender">#8692f7</color>
+    <color name="themelight1">#A144C2</color>
+    <color name="themelight2">#B15A9A</color>
+    <color name="themelightchatcard">#DCC2F5</color>
+
+
+    <color name="themedark1">#1D8BF1</color>
+
+    <color name="themedark2">#2042D9</color>
+
 </resources>

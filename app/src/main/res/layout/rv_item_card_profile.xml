@@ -133,7 +133,7 @@
                     android:id="@+id/icon1"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/bgyellow"
+                    android:src="@drawable/chat_cardbg_dark"
                     android:layout_gravity="left|center"
                     android:layout_marginLeft="80dp"
                     android:layout_marginTop="12dp"/>

@@ -33,11 +33,11 @@
                         android:endY="52"
                         >
                         <item
-                            android:color="@color/themelight2"
+                            android:color="@color/themedark2"
                             android:offset="0"
                             />
                         <item
-                            android:color="@color/themelight1"
+                            android:color="@color/themedark1"
                             android:offset="1"
                             />
 
