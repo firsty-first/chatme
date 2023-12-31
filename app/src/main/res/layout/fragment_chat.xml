@@ -103,6 +103,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="@color/teal_700"
             android:text="Gps is turned off" />
 
@@ -133,9 +134,11 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
+                android:padding="8dp"
                 android:background="@drawable/dismissbg"
-                android:text="Dismiss" />
+                android:text="Dismiss"
+                android:textColor="@color/white"
+                />
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>
