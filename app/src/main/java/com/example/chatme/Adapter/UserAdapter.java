@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Filter;
@@ -163,11 +164,13 @@ System.out.println("distance between it"+ R*c);
         Log.d("distance with ceil",Double.toString(Math.ceil(R * c)));
         return Math.ceil(R * c);
     }
-    void showDialogPreviewImage(String profilepic) // will be called on pressing on the image in previous dialog
+    void showDialogPreviewImage(String profilepic,Context context,String name) // will be called on pressing on the image in previous dialog
 
     {
         Dialog dialog=new Dialog(context);
         dialog.setContentView(R.layout.imagepreview);
+        TextView username=dialog.findViewById(R.id.previewUsername);
+        ImageView backBtn=dialog.findViewById(R.id.previewBackBtn);
         ZoomableImageView profilePreview = dialog.findViewById(R.id.zoomableImageView);
 
         Picasso.get().load(profilepic)
@@ -176,24 +179,37 @@ System.out.println("distance between it"+ R*c);
                     @Override
                     public void onSuccess() {
                         // Image loaded successfully
-                        Log.d("zombie","success loaded");
                     }
 
                     @Override
                     public void onError(Exception e) {
                         // Log or handle the error
                         e.printStackTrace();
-                        Log.d("zombie","failed");
-                        Log.d("zombie",e.getMessage());
                     }
                 });
 
-        dialog.setCanceledOnTouchOutside(false);
+
         Window window = dialog.getWindow();
         if (window != null) {
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+           // window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
         }
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.stay);
+
+        username.setText(name);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Animation animation = AnimationUtils.loadAnimation(context, R.anim.stay);
+                dialog.findViewById(R.id.imagePreviewLinearLayout).startAnimation(animation);
+
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.imagePreviewLinearLayout).startAnimation(animation);
 
 dialog.show();
 
@@ -217,7 +233,7 @@ dialog.show();
             @Override
             public void onClick(View view) {
 
-                showDialogPreviewImage(profilepic);
+                showDialogPreviewImage(profilepic,context,name);
             }
         });
         messagebuttonDialog.setOnClickListener(new View.OnClickListener() {
