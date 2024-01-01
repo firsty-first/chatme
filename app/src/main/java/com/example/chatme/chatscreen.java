@@ -72,11 +72,12 @@ public class chatscreen extends AppCompatActivity {
         binding.name.setText(recieverName);
 
         Picasso.get().load(recieverImg)
-                .placeholder(R.drawable.parrot)
+                .placeholder(R.drawable.defaultuserprofile)
                 .transform(new CropCircleTransformation())
                 .centerCrop()
                 .fit()
                 .into(binding.userImage);
+
         binding.backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +114,7 @@ public class chatscreen extends AppCompatActivity {
                         for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                             messagesModel model = snapshot1.getValue(messagesModel.class);
                             messagesModels.add(model);
+
                             Log.d("hii", "got into if");
                             Log.d("hii", model.getMessages());
                         }
@@ -143,6 +145,15 @@ public class chatscreen extends AppCompatActivity {
                         Log.d("db", "Dberror");
                     }
                 });
+        binding.editTextText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("edittext","hi");
+              binding.editTextText.requestFocus();
+                binding.chatRv.smoothScrollToPosition(messagesModels.size()-1);
+
+            }
+        });
     }
 
 
