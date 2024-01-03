@@ -145,6 +145,7 @@ public class chatscreen extends AppCompatActivity {
                         Log.d("db", "Dberror");
                     }
                 });
+
         binding.editTextText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,6 +153,12 @@ public class chatscreen extends AppCompatActivity {
               binding.editTextText.requestFocus();
                 binding.chatRv.smoothScrollToPosition(messagesModels.size()-1);
 
+            }
+        });
+        binding.videocallchatscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(chatscreen.this, VideocallActivity.class));
             }
         });
     }

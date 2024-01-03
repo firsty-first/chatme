@@ -133,15 +133,16 @@ binding.dismissBtn.setOnClickListener(new View.OnClickListener() {
                 {
                     UserModel userModel=dataSnapshot.getValue(UserModel.class);
                     userModel.setUserId(dataSnapshot.getKey());
-                    Log.d("user",auth.getCurrentUser().getUid());
+                    Log.d("sort",userModel.getUserName());
                     Log.d("user",auth.getCurrentUser().getEmail());
                      if( auth.getCurrentUser().getUid().equals(userModel.getUserId())) {
                         Log.d("user","entered into if");
                         userModel.setUserName(userModel.getUserName() + "(Me)");
                         saveUserName(getContext(),userModel.getUserName().substring(0,userModel.getUserName().length()-4));
                         saveUserEmail(getContext(),userModel.getMail());
+
              }
-              binding.dashboardname.setText("Howdy ,"+getUserName(getContext()));
+
                     arrayList.add(userModel);
                     adapter=new UserAdapter(arrayList,getContext(),Double.parseDouble(sharedPreferences.getString("latitude","0")),Double.parseDouble(sharedPreferences.getString("longitude","0")));
                     binding.chatRv.setAdapter(adapter);
@@ -153,6 +154,7 @@ binding.dismissBtn.setOnClickListener(new View.OnClickListener() {
                 //Collections.sort(arrayList, Comparator.comparingLong(UserModel::getLastmessageTime).reversed());
                 // Sort the ArrayList in descending order based on the time property using lambda expression
 binding.chatRv.smoothScrollToPosition(0);
+                binding.dashboardname.setText("Hi,"+" "+getUserName(getContext()));
                 adapter.notifyDataSetChanged();
                 if (arrayList.size() > 0) {
                     int lastItemPosition = arrayList.size() - 1;

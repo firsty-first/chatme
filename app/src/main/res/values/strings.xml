@@ -44,7 +44,9 @@
     <string name="error_password_match">Password Does Not Match</string>
     <string name="error_valid_email_password">Wrong Email or Password</string>
     <string name="success_message">Registration Successful</string>
-
+    <string name="appId">2ade7213d13545a6a8e82a88d94a6af5</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
+    <string name="token">007eJxTYGiceCoueEr+TIfaBTcF173ZKvXuPfcUk/3aj45xKCral59XYDBKTEk1NzI0TjE0NjUxTTRLtEi1MEq0sEixNAFy0kwtp7qkNAQyMjhEFTEwQiGIz86QnVKSmpxRzMAAALabIAU=</string>
+    <string name="channel">kdtechs</string>
 </resources>

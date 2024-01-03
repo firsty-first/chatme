@@ -249,6 +249,7 @@ dialog.show();
             }
         });
         ImageView callbuttonDialog=dialog.findViewById(R.id.calllBtnDialog);
+        ImageView videocallbuttonDialog=dialog.findViewById(R.id.vidCall);
         ImageView locationbuttonDialog=dialog.findViewById(R.id.locationBtnDialog);
         locationbuttonDialog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,6 +261,13 @@ dialog.show();
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "This feature will come soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        videocallbuttonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "This feature will come soon", Toast.LENGTH_SHORT).show();
+
             }
         });
         dialog.show();
