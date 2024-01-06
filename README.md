@@ -40,7 +40,7 @@ Your data is hosted in secure data centers, implementing top-notch security prot
 
 ## Getting Started
 
-1. **Installation**: Download and install chatMee from the official app store.
+1. **Installation**: Not yet released
 
 2. **Account Creation**: Create a secure account with a robust password. Optionally, enhance security by enabling two-factor authentication.
 
