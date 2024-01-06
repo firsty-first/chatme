@@ -13,8 +13,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.example.chatme.Adapter.ChatAdapter;
 import com.example.chatme.databinding.ChatscreenUiActivityBinding;
@@ -101,7 +104,7 @@ public class chatscreen extends AppCompatActivity {
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                storeMsgIndatabase();
+                storeMsgIndatabase(binding.editTextText.getText().toString());
             }
         });
 
@@ -155,6 +158,18 @@ public class chatscreen extends AppCompatActivity {
 
             }
         });
+        binding.editTextText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    // Handle the "Send" action here
+                    storeMsgIndatabase(binding.editTextText.getText().toString());
+                    return true; // Consume the event
+                }
+                return false; // Let other listeners handle it
+            }
+        });
+
         binding.videocallchatscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,8 +199,8 @@ public class chatscreen extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(chatscreen.this, NotificationUtils.CHANNEL_ID)
                 .setSmallIcon(R.drawable.parrot)
                 .setContentTitle("New message Arrived")
-                .setContentText(auth.getCurrentUser().getDisplayName()+", Tap to view it ")
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setContentText(auth.getCurrentUser().getDisplayName()+" Tap to view it ")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -205,9 +220,9 @@ public class chatscreen extends AppCompatActivity {
     }
 
 
-    void storeMsgIndatabase() {
+    void storeMsgIndatabase(String msg) {
 
-        String msg = binding.editTextText.getText().toString();
+msg=msg.trim();
         if (msg.length() > 0) {
             final messagesModel model = new messagesModel(senderId, msg);
 

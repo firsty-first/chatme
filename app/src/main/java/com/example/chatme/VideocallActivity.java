@@ -7,10 +7,13 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.Constants;
@@ -21,7 +24,7 @@ import io.agora.rtc2.video.VideoCanvas;
 
 public class VideocallActivity extends AppCompatActivity {
 
-
+FirebaseAuth auth;
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS =
             {
@@ -43,7 +46,7 @@ public class VideocallActivity extends AppCompatActivity {
         runOnUiThread(()-> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
     }
 
-    private int uid = 2;
+    private String uid = "2";
 
     private boolean isJoined = false;
 
@@ -113,7 +116,7 @@ public class VideocallActivity extends AppCompatActivity {
             setupLocalVideo();
             localSurfaceView.setVisibility(View.VISIBLE);
             agoraEngin.startPreview();
-            agoraEngin.joinChannel(getResources().getString(R.string.token),getResources().getString(R.string.channel),uid,options);
+            agoraEngin.joinChannel(getResources().getString(R.string.token),getResources().getString(R.string.channel), Integer.parseInt(uid),options);
 
         }else {
             showMessage("Permission was not granted");
@@ -140,6 +143,7 @@ public class VideocallActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
         }
         setupVideoSDKEngine();
+
     }
 
     @Override
@@ -152,5 +156,16 @@ public class VideocallActivity extends AppCompatActivity {
             RtcEngine.destroy();
             agoraEngin = null;
         }).start();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        auth=FirebaseAuth.getInstance();
+        String uid=auth.getCurrentUser().getUid();
+        Log.d("uid",uid);
+
+        String uid1=auth.getUid();
+        Log.d("uid1",uid1);
     }
 }
