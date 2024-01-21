@@ -24,6 +24,9 @@ Your privacy is paramount. Continuous face recognition technology prevents unaut
 ### 3. Location-Based Sorting
 
 Tailor your chat experience with location-based sorting. Connect with people in your vicinity, making conversations more relevant and context-aware.
+### 4. Video Call
+
+Currently implemented only in vidcall branch using Agora sdk ,Soon it will be implemented WEB RTC. 🔜
 
 ## Security Measures
 
