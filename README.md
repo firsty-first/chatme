@@ -53,6 +53,8 @@ Your data is hosted in secure data centers, implementing top-notch security prot
 <img width="170" alt="Screenshot 2024-01-21 115108" src="https://github.com/firsty-first/chatme/assets/71409257/345bea23-3734-4bb7-8460-e058a2f6bbcc">
 <img width="171" alt="Screenshot 2024-01-21 115304" src="https://github.com/firsty-first/chatme/assets/71409257/d98a8c19-4428-435a-bced-c2810548eeb0">
 <img width="185" alt="Screenshot 2023-12-25 204952" src="https://github.com/firsty-first/chatme/assets/71409257/f4e52f37-5f60-4d1d-a572-46828a1da7f4">
+<img width="170" alt="Screenshot 2024-01-24 235708" src="https://github.com/firsty-first/chatme/assets/71409257/0e573c6a-c409-4d99-bae2-d90112904b8f">
+
 <img width="187" alt="Screenshot 2023-12-25 205133" src="https://github.com/firsty-first/chatme/assets/71409257/3c7aee16-565e-4a82-a104-337a56676e62">
 <img width="175" alt="Screenshot 2023-12-25 204952dddddd" src="https://github.com/firsty-first/chatme/assets/71409257/0b5f2bd5-e19c-4654-b7cb-49664fd58fa9">
 <img width="172" alt="Screenshot 2024-01-21 115447" src="https://github.com/firsty-first/chatme/assets/71409257/e6562bc7-2485-4f2b-ac6f-1d2201805b33">
